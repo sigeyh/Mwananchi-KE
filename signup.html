@@ -6,7 +6,7 @@
   <title>Signup - Mwananchi Credit</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen text-white flex flex-col font-sans">
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen text-white font-sans">
 
   <!-- Header -->
   <header class="p-4">
@@ -17,84 +17,22 @@
   </header>
 
   <!-- Main Content -->
-  <main class="flex-1 flex flex-col items-center px-6 py-4">
-    <h2 class="text-2xl font-bold mb-2">Complete Your Signup</h2>
-    <p class="text-sm text-gray-200 mb-4">Phone: <span id="displayPhone" class="font-bold text-orange-400"></span></p>
+  <main class="flex flex-col items-center px-6 py-4">
+    <h2 class="text-2xl font-bold mb-2">Personal Information</h2>
+    <p class="text-sm text-gray-200 mb-4">Fill in your personal details to continue</p>
 
     <div class="w-full max-w-md bg-white text-black rounded-xl shadow-lg p-6 space-y-4">
 
       <div>
-        <label for="fullname" class="block font-semibold mb-1">Full Name</label>
-        <input type="text" id="fullname" placeholder="Your full name" class="w-full p-2 border border-gray-300 rounded" required>
+        <label for="firstName" class="block font-semibold mb-1">First Name</label>
+        <input type="text" id="firstName" placeholder="Enter First Name" class="w-full p-2 border border-gray-300 rounded">
       </div>
 
       <div>
-        <label for="idNumber" class="block font-semibold mb-1">ID Number</label>
-        <input type="number" id="idNumber" placeholder="Your ID Number" class="w-full p-2 border border-gray-300 rounded" required>
+        <label for="middleName" class="block font-semibold mb-1">Middle Name (optional)</label>
+        <input type="text" id="middleName" placeholder="Enter Middle Name" class="w-full p-2 border border-gray-300 rounded">
       </div>
 
       <div>
-        <label for="dob" class="block font-semibold mb-1">Date of Birth</label>
-        <input type="date" id="dob" class="w-full p-2 border border-gray-300 rounded" required>
-      </div>
-
-      <div>
-        <label for="county" class="block font-semibold mb-1">County</label>
-        <select id="county" class="w-full p-2 border border-gray-300 rounded">
-          <option value="">-- Select County --</option>
-          <option value="Nairobi">Nairobi</option>
-          <option value="Kiambu">Kiambu</option>
-          <option value="Mombasa">Mombasa</option>
-          <option value="Nakuru">Nakuru</option>
-          <!-- Add all counties if needed -->
-        </select>
-      </div>
-
-      <button onclick="submitSignup()" class="w-full mt-4 bg-orange-500 hover:bg-orange-400 text-white font-semibold py-2 rounded transition duration-300">
-        Continue
-      </button>
-
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="text-center text-sm text-gray-300 p-4 border-t border-gray-600">
-    <p>Support: 0701-201-0001 (8AM–6PM Daily)</p>
-    <p>Email: <a href="mailto:support@mwananchicredit.co.ke" class="underline">support@mwananchicredit.co.ke</a></p>
-  </footer>
-
-  <!-- Script -->
-  <script>
-    // Show phone number from localStorage
-    const phone = localStorage.getItem("userPhone");
-    if (phone) {
-      document.getElementById("displayPhone").textContent = phone;
-    } else {
-      alert("No phone number found. Redirecting...");
-      window.location.href = "register.html";
-    }
-
-    function submitSignup() {
-      const fullName = document.getElementById("fullname").value.trim();
-      const idNumber = document.getElementById("idNumber").value.trim();
-      const dob = document.getElementById("dob").value;
-      const county = document.getElementById("county").value;
-
-      if (!fullName || !idNumber || !dob || !county) {
-        alert("Please fill in all fields.");
-        return;
-      }
-
-      // Store user data in localStorage
-      localStorage.setItem("fullname", fullName);
-      localStorage.setItem("idNumber", idNumber);
-      localStorage.setItem("dob", dob);
-      localStorage.setItem("county", county);
-
-      // Go to next step (e.g., checklimit.html or loan.html)
-      window.location.href = "checklimit.html";
-    }
-  </script>
-
-</body>
-</html>
+        <label for="lastName" class="block font-semibold mb-1">Last Name</label>
+        <input type="text"
