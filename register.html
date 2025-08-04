@@ -3,60 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mwananchi Credit - Register</title>
+  <title>Register - Mwananchi Credit</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 flex items-center justify-center text-white p-4">
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white min-h-screen flex flex-col justify-between font-sans">
 
-  <div class="bg-white text-gray-800 w-full max-w-md p-6 rounded-xl shadow-lg">
-    <div class="flex items-center gap-3 mb-6">
-      <img src="mwananchi-logo.png" class="w-10 h-10 rounded-full border-2 border-orange-500" alt="Mwananchi Logo" />
-      <h2 class="text-2xl font-bold text-blue-800">Mwananchi Credit</h2>
-    </div>
+  <!-- Header with Logo -->
+  <header class="p-4 flex items-center space-x-3">
+    <img src="mwananchi-logo.png" alt="Mwananchi Logo" class="w-10 h-10 rounded-full border-2 border-orange-500">
+    <h1 class="text-xl font-semibold">Mwananchi Credit</h1>
+  </header>
 
-    <h3 class="text-xl font-semibold text-center mb-2">Get a loan online within 6 minutes</h3>
-    <p class="text-sm text-center text-gray-600 mb-6">Fast, reliable, and safe application</p>
+  <!-- Main Content -->
+  <main class="flex flex-col items-center px-6 space-y-6 text-center mt-10">
+    <h2 class="text-2xl font-bold">Get a Loan Online in 6 Minutes</h2>
+    <p class="text-sm text-gray-200">Fast, secure & fully online</p>
 
-    <form id="registerForm" class="space-y-4">
-      <label class="block text-sm text-gray-700 font-semibold">Phone Number</label>
+    <!-- Phone Input -->
+    <div class="w-full max-w-md bg-white text-black p-6 rounded-xl shadow-lg">
+      <label class="block mb-2 font-semibold text-left text-gray-800">Phone Number</label>
       <div class="flex items-center border border-gray-300 rounded overflow-hidden">
-        <span class="bg-gray-100 px-3 py-2 text-gray-600">+254</span>
-        <input type="tel" id="phone" maxlength="9" placeholder="7XXXXXXXX" class="flex-1 p-2 outline-none" required>
+        <span class="px-3 bg-gray-100 text-gray-700">+254</span>
+        <input 
+          type="tel" 
+          id="phone" 
+          placeholder="7XXXXXXXX" 
+          class="w-full p-2 outline-none" 
+          maxlength="9"
+        />
       </div>
 
-      <button type="submit" class="w-full bg-orange-600 text-white py-3 rounded font-semibold hover:bg-orange-500 transition">
+      <button onclick="savePhone()" class="w-full mt-6 bg-orange-500 hover:bg-orange-400 text-white font-semibold py-2 rounded transition duration-300">
         Continue
       </button>
-    </form>
-
-    <p class="text-xs text-gray-600 mt-4">
-      By clicking on the <strong>"Continue"</strong> button, I confirm that I have read and accept the 
-      <a href="#" class="text-blue-600 font-semibold underline">Terms & Conditions</a> and 
-      <a href="#" class="text-blue-600 font-semibold underline">Privacy Policy</a>, and that the specified phone number is mine and the M-Pesa account is connected to it.
-    </p>
-
-    <div class="mt-6 border-t pt-4 text-sm text-gray-600">
-      <p><strong>Support:</strong> 0701-201-0001 (Mon–Sun: 8AM–6PM)</p>
-      <p><strong>Email:</strong> support@mwananchicredit.co.ke</p>
-      <p><strong>Application acceptance:</strong> 24/7</p>
     </div>
-  </div>
 
+    <!-- Terms -->
+    <p class="text-xs text-gray-300 max-w-md mt-2">
+      By clicking on the "Continue" button, I confirm that I have read and accept the <a href="#" class="underline">Terms & Conditions</a> and <a href="#" class="underline">Privacy Policy</a>, and that the specified phone number is mine and the M-Pesa account is connected to it.
+    </p>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-300 p-4 mt-10">
+    <p><strong>Support:</strong> 0701-201-0001 (Mon–Sun: 8AM–6PM)</p>
+    <p>Email: <a href="mailto:support@zashloan.co.ke" class="underline">support@zashloan.co.ke</a></p>
+    <p class="mt-2">© 2025 Mwananchi Credit. All rights reserved.</p>
+  </footer>
+
+  <!-- JS -->
   <script>
-    document.getElementById('registerForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const phone = document.getElementById('phone').value.trim();
-      if (!/^7\d{8}$/.test(phone)) {
-        alert("Please enter a valid Kenyan phone number starting with 7");
-        return;
+    function savePhone() {
+      const phone = document.getElementById("phone").value;
+      if (phone.length === 9 && phone.startsWith("7")) {
+        localStorage.setItem("userPhone", "+254" + phone);
+        window.location.href = "checklimit.html";
+      } else {
+        alert("Please enter a valid phone number starting with 7...");
       }
-
-      // Save full number to localStorage
-      localStorage.setItem('phone', '+254' + phone);
-
-      // Redirect to checklimit.html
-      window.location.href = 'checklimit.html';
-    });
+    }
   </script>
 
 </body>
