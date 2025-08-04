@@ -8,7 +8,7 @@
 </head>
 <body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white min-h-screen flex flex-col justify-between font-sans">
 
-  <!-- Header with Logo -->
+  <!-- Header -->
   <header class="p-4 flex items-center space-x-3">
     <img src="mwananchi-logo.png" alt="Mwananchi Logo" class="w-10 h-10 rounded-full border-2 border-orange-500">
     <h1 class="text-xl font-semibold">Mwananchi Credit</h1>
@@ -33,31 +33,35 @@
         />
       </div>
 
-      <button onclick="savePhone()" class="w-full mt-6 bg-orange-500 hover:bg-orange-400 text-white font-semibold py-2 rounded transition duration-300">
+      <button onclick="confirmPhone()" class="w-full mt-6 bg-orange-500 hover:bg-orange-400 text-white font-semibold py-2 rounded transition duration-300">
         Continue
       </button>
     </div>
 
     <!-- Terms -->
     <p class="text-xs text-gray-300 max-w-md mt-2">
-      By clicking on the "Continue" button, I confirm that I have read and accept the <a href="#" class="underline">Terms & Conditions</a> and <a href="#" class="underline">Privacy Policy</a>, and that the specified phone number is mine and the M-Pesa account is connected to it.
+      By clicking "Continue", I confirm that I have read and accept the <a href="#" class="underline">Terms & Conditions</a> and <a href="#" class="underline">Privacy Policy</a>, and that the specified phone number is mine and the M-Pesa account is connected to it.
     </p>
   </main>
 
   <!-- Footer -->
   <footer class="text-center text-sm text-gray-300 p-4 mt-10">
     <p><strong>Support:</strong> 0701-201-0001 (Mon–Sun: 8AM–6PM)</p>
-    <p>Email: <a href="mailto:support@zashloan.co.ke" class="underline">support@zashloan.co.ke</a></p>
+    <p>Email: <a href="mailto:support@mwananchicredit.co.ke" class="underline">support@mwananchicredit.co.ke</a></p>
     <p class="mt-2">© 2025 Mwananchi Credit. All rights reserved.</p>
   </footer>
 
   <!-- JS -->
   <script>
-    function savePhone() {
+    function confirmPhone() {
       const phone = document.getElementById("phone").value;
       if (phone.length === 9 && phone.startsWith("7")) {
-        localStorage.setItem("userPhone", "+254" + phone);
-        window.location.href = "checklimit.html";
+        const fullPhone = "+254" + phone;
+        const isConfirmed = confirm(`Confirm your phone number:\n\n${fullPhone}\n\nIs this correct?`);
+        if (isConfirmed) {
+          localStorage.setItem("userPhone", fullPhone);
+          window.location.href = "checklimit.html";
+        }
       } else {
         alert("Please enter a valid phone number starting with 7...");
       }
