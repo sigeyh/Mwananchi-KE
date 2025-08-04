@@ -9,19 +9,20 @@
 <body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white min-h-screen flex flex-col justify-between font-sans">
 
   <!-- Header -->
-  <header class="p-4 flex items-center space-x-3">
-    <img src="mwananchi-logo.png" alt="Mwananchi Logo" class="w-10 h-10 rounded-full border-2 border-orange-500">
-    <h1 class="text-xl font-semibold">Mwananchi Credit</h1>
+  <header class="p-4">
+    <div class="flex items-center space-x-3">
+      <img src="mwananchi-logo.png" alt="Mwananchi Logo" class="w-10 h-10 rounded-full border border-orange-500">
+      <h1 class="text-xl font-bold">Mwananchi Credit</h1>
+    </div>
   </header>
 
   <!-- Main Content -->
-  <main class="flex flex-col items-center px-6 space-y-6 text-center mt-10">
+  <main class="flex-1 flex flex-col justify-center items-center px-6 space-y-6 text-center">
     <h2 class="text-2xl font-bold">Get a Loan Online in 6 Minutes</h2>
-    <p class="text-sm text-gray-200">Fast, secure & fully online</p>
+    <p class="text-sm text-gray-200">Fast and safe application</p>
 
-    <!-- Phone Input -->
     <div class="w-full max-w-md bg-white text-black p-6 rounded-xl shadow-lg">
-      <label class="block mb-2 font-semibold text-left text-gray-800">Phone Number</label>
+      <label for="phone" class="block mb-2 font-semibold text-left text-gray-700">To apply for a loan, enter your phone number</label>
       <div class="flex items-center border border-gray-300 rounded overflow-hidden">
         <span class="px-3 bg-gray-100 text-gray-700">+254</span>
         <input 
@@ -40,12 +41,14 @@
 
     <!-- Terms -->
     <p class="text-xs text-gray-300 max-w-md mt-2">
-      By clicking "Continue", I confirm that I have read and accept the <a href="#" class="underline">Terms & Conditions</a> and <a href="#" class="underline">Privacy Policy</a>, and that the specified phone number is mine and the M-Pesa account is connected to it.
+      By clicking "Continue", I confirm that I have read and accept the 
+      <a href="#" class="underline">Terms & Conditions</a> and 
+      <a href="#" class="underline">Privacy Policy</a>, and that the specified phone number is mine and the M-Pesa account is connected to it.
     </p>
   </main>
 
   <!-- Footer -->
-  <footer class="text-center text-sm text-gray-300 p-4 mt-10">
+  <footer class="text-center text-sm text-gray-300 p-4 border-t border-gray-600">
     <p><strong>Support:</strong> 0701-201-0001 (Mon–Sun: 8AM–6PM)</p>
     <p>Email: <a href="mailto:support@mwananchicredit.co.ke" class="underline">support@mwananchicredit.co.ke</a></p>
     <p class="mt-2">© 2025 Mwananchi Credit. All rights reserved.</p>
@@ -54,11 +57,11 @@
   <!-- JS -->
   <script>
     function confirmPhone() {
-      const phone = document.getElementById("phone").value;
+      const phone = document.getElementById("phone").value.trim();
       if (phone.length === 9 && phone.startsWith("7")) {
         const fullPhone = "+254" + phone;
-        const isConfirmed = confirm(`Confirm your phone number:\n\n${fullPhone}\n\nIs this correct?`);
-        if (isConfirmed) {
+        const confirmAction = confirm(`Please confirm your phone number:\n\n${fullPhone}`);
+        if (confirmAction) {
           localStorage.setItem("userPhone", fullPhone);
           window.location.href = "checklimit.html";
         }
