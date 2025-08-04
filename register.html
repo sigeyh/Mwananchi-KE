@@ -6,7 +6,7 @@
   <title>Register - Mwananchi Credit</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white min-h-screen flex flex-col justify-between font-sans">
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white min-h-screen flex flex-col justify-between font-sans relative">
 
   <!-- Header -->
   <header class="p-4">
@@ -34,7 +34,7 @@
         />
       </div>
 
-      <button onclick="confirmPhone()" class="w-full mt-6 bg-orange-500 hover:bg-orange-400 text-white font-semibold py-2 rounded transition duration-300">
+      <button onclick="openConfirmModal()" class="w-full mt-6 bg-orange-500 hover:bg-orange-400 text-white font-semibold py-2 rounded transition duration-300">
         Continue
       </button>
     </div>
@@ -54,20 +54,39 @@
     <p class="mt-2">© 2025 Mwananchi Credit. All rights reserved.</p>
   </footer>
 
+  <!-- Confirmation Modal -->
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50">
+    <div class="bg-white text-black rounded-lg shadow-lg w-80 p-6">
+      <h3 class="text-lg font-bold mb-4">Confirm Phone Number</h3>
+      <p class="mb-4">Is this your correct number?</p>
+      <p id="confirmPhone" class="font-semibold text-blue-700 text-center text-lg mb-6"></p>
+      <div class="flex justify-between space-x-3">
+        <button onclick="closeModal()" class="w-1/2 bg-gray-300 hover:bg-gray-400 rounded py-2">Cancel</button>
+        <button onclick="confirmAndProceed()" class="w-1/2 bg-orange-500 hover:bg-orange-400 text-white rounded py-2">Yes, Continue</button>
+      </div>
+    </div>
+  </div>
+
   <!-- JS -->
   <script>
-    function confirmPhone() {
+    function openConfirmModal() {
       const phone = document.getElementById("phone").value.trim();
       if (phone.length === 9 && phone.startsWith("7")) {
         const fullPhone = "+254" + phone;
-        const confirmAction = confirm(`Please confirm your phone number:\n\n${fullPhone}`);
-        if (confirmAction) {
-          localStorage.setItem("userPhone", fullPhone);
-          window.location.href = "checklimit.html";
-        }
+        document.getElementById("confirmPhone").innerText = fullPhone;
+        document.getElementById("modal").classList.remove("hidden");
+        localStorage.setItem("userPhone", fullPhone);
       } else {
         alert("Please enter a valid phone number starting with 7...");
       }
+    }
+
+    function closeModal() {
+      document.getElementById("modal").classList.add("hidden");
+    }
+
+    function confirmAndProceed() {
+      window.location.href = "signup.html";
     }
   </script>
 
