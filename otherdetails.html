@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Other Details - Mwananchi Credit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .fixed-logo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 16px;
+      z-index: 50;
+      background-color: white;
+      width: 100%;
+      border-bottom: 1px solid #ddd;
+    }
+    .form-section {
+      margin-top: 100px;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen text-gray-800">
+
+  <!-- Logo Fixed at Top -->
+  <div class="fixed-logo flex items-center">
+    <img src="logo.png" alt="Mwananchi Credit Logo" class="h-10 mr-2">
+    <span class="font-bold text-xl text-blue-900">Mwananchi Credit</span>
+  </div>
+
+  <!-- Form Section -->
+  <div class="form-section px-4 py-6 max-w-lg mx-auto bg-white rounded-lg shadow">
+    <h2 class="text-2xl font-semibold mb-4">Educational & Employment Info</h2>
+    <p class="mb-4 text-sm text-gray-600">Please fill in your educational background and employment details to proceed.</p>
+
+    <form id="educationForm">
+      <label class="block mb-2 font-medium">Education Level</label>
+      <select id="education" class="w-full p-2 mb-4 border border-gray-300 rounded" required>
+        <option value="">Select</option>
+        <option>Primary</option>
+        <option>Secondary</option>
+        <option>College</option>
+        <option>University</option>
+        <option>Other</option>
+      </select>
+
+      <label class="block mb-2 font-medium">Employment Status</label>
+      <select id="employment" class="w-full p-2 mb-4 border border-gray-300 rounded" required>
+        <option value="">Select</option>
+        <option>Employed</option>
+        <option>Self-Employed</option>
+        <option>Unemployed</option>
+        <option>Student</option>
+        <option>Other</option>
+      </select>
+
+      <label class="block mb-2 font-medium">Monthly Income (KES)</label>
+      <input type="number" id="income" placeholder="e.g. 25000" class="w-full p-2 mb-6 border border-gray-300 rounded" required />
+
+      <button type="submit" class="w-full bg-blue-800 text-white py-3 rounded font-semibold hover:bg-blue-900 transition">
+        Continue
+      </button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center text-xs mt-8 mb-4 text-gray-500">
+    © 2025 Mwananchi Credit. All rights reserved.
+  </footer>
+
+  <!-- Popup -->
+  <div id="savingPopup" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg px-6 py-8 text-center">
+      <img src="logo.png" alt="Logo" class="w-12 mx-auto mb-4 animate-spin">
+      <p class="text-lg font-medium text-blue-900">Saving your details...</p>
+    </div>
+  </div>
+
+  <script>
+    // Populate phone number or previously saved info (optional display/logs)
+    const phone = localStorage.getItem('phoneNumber');
+
+    // Handle form submission
+    document.getElementById('educationForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const education = document.getElementById('education').value;
+      const employment = document.getElementById('employment').value;
+      const income = document.getElementById('income').value;
+
+      // Save to localStorage
+      localStorage.setItem('educationLevel', education);
+      localStorage.setItem('employmentStatus', employment);
+      localStorage.setItem('monthlyIncome', income);
+
+      // Show popup then redirect
+      document.getElementById('savingPopup').classList.remove('hidden');
+
+      setTimeout(() => {
+        window.location.href = 'referee.html'; // next step
+      }, 2500);
+    });
+  </script>
+</body>
+</html>
