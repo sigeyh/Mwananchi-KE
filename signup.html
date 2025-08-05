@@ -3,116 +3,117 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mwananchi Credit - Sign Up</title>
+  <title>Signup - Mwananchi Credit</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .loader {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #0F172A;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
 </head>
-<body class="bg-gray-100 text-gray-800 min-h-screen">
-
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white min-h-screen relative">
   <!-- Fixed Logo -->
-  <div class="fixed top-0 left-0 p-4 z-50 bg-white w-full shadow-md">
-    <img src="logo.png" alt="Mwananchi Credit Logo" class="h-10 inline-block align-middle">
-    <span class="text-xl font-semibold ml-2 text-blue-900">Mwananchi Credit</span>
+  <div class="absolute top-0 left-0 p-4">
+    <img src="logo.png" alt="Mwananchi Credit Logo" class="h-12">
   </div>
 
-  <!-- Form Content -->
-  <div class="pt-24 px-4 max-w-md mx-auto">
-    <h2 class="text-2xl font-semibold text-blue-900 mb-4">Personal Information</h2>
-    <p class="mb-6 text-gray-700">Fill in your personal details to continue</p>
+  <!-- Form Container -->
+  <div class="flex flex-col items-center justify-center min-h-screen px-4 pt-20">
+    <div class="w-full max-w-md bg-white text-black p-6 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-semibold mb-4 text-center text-blue-900">Personal Information</h2>
+      <p class="text-center text-sm text-gray-600 mb-6">Fill in your personal details to continue</p>
 
-    <form id="signupForm" class="space-y-4">
-      <div>
-        <label>First Name</label>
-        <input type="text" id="firstName" class="w-full border px-3 py-2 rounded" placeholder="Enter First Name" required />
-      </div>
-      <div>
-        <label>Middle Name (optional)</label>
-        <input type="text" id="middleName" class="w-full border px-3 py-2 rounded" placeholder="Enter Middle Name" />
-      </div>
-      <div>
-        <label>Last Name</label>
-        <input type="text" id="lastName" class="w-full border px-3 py-2 rounded" placeholder="Enter Last Name" required />
-      </div>
-      <div>
-        <label>Date of Birth</label>
-        <input type="date" id="dob" class="w-full border px-3 py-2 rounded" required />
-      </div>
-      <div>
-        <label>National ID Number</label>
-        <input type="text" id="idNumber" class="w-full border px-3 py-2 rounded" placeholder="Enter ID Number" required />
-      </div>
-      <div>
-        <label>Email</label>
-        <input type="email" id="email" class="w-full border px-3 py-2 rounded" placeholder="example@gmail.com" required />
-      </div>
-      <div>
-        <label>Gender</label>
-        <select id="gender" class="w-full border px-3 py-2 rounded" required>
-          <option value="">Select Gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <div>
-        <label>Alternative Phone (optional)</label>
-        <input type="tel" id="altPhone" class="w-full border px-3 py-2 rounded" placeholder="+2547XXXXXXX" />
-      </div>
+      <form id="signupForm">
+        <div class="mb-4">
+          <label class="block mb-1 text-sm">First Name</label>
+          <input type="text" id="firstName" required class="w-full border border-gray-300 rounded px-3 py-2"/>
+        </div>
 
-      <button type="submit" class="bg-blue-900 text-white w-full py-2 rounded font-semibold hover:bg-blue-800 flex items-center justify-center">
-        <span id="btnText">Continue</span>
-        <div id="loader" class="ml-2 hidden loader"></div>
-      </button>
-    </form>
+        <div class="mb-4">
+          <label class="block mb-1 text-sm">Middle Name (optional)</label>
+          <input type="text" id="middleName" class="w-full border border-gray-300 rounded px-3 py-2"/>
+        </div>
+
+        <div class="mb-4">
+          <label class="block mb-1 text-sm">Last Name</label>
+          <input type="text" id="lastName" required class="w-full border border-gray-300 rounded px-3 py-2"/>
+        </div>
+
+        <div class="mb-4">
+          <label class="block mb-1 text-sm">Date of Birth</label>
+          <input type="date" id="dob" required class="w-full border border-gray-300 rounded px-3 py-2"/>
+        </div>
+
+        <div class="mb-4">
+          <label class="block mb-1 text-sm">National ID Number</label>
+          <input type="number" id="idNumber" required class="w-full border border-gray-300 rounded px-3 py-2"/>
+        </div>
+
+        <div class="mb-4">
+          <label class="block mb-1 text-sm">Email</label>
+          <input type="email" id="email" required class="w-full border border-gray-300 rounded px-3 py-2"/>
+        </div>
+
+        <div class="mb-4">
+          <label class="block mb-1 text-sm">Gender</label>
+          <select id="gender" required class="w-full border border-gray-300 rounded px-3 py-2">
+            <option value="">Select Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="mb-6">
+          <label class="block mb-1 text-sm">Alternative Phone (optional)</label>
+          <input type="tel" id="altPhone" class="w-full border border-gray-300 rounded px-3 py-2"/>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-900 text-white py-2 rounded">Continue</button>
+      </form>
+    </div>
   </div>
 
   <!-- Footer -->
-  <footer class="mt-10 py-6 bg-gray-200 text-center text-sm text-gray-600">
-    Support: 0701-201-0001 | Email: support@mwananchicredit.co.ke<br />
+  <footer class="text-center text-sm mt-10 mb-4 text-white opacity-75">
     &copy; 2025 Mwananchi Credit. All rights reserved.
   </footer>
 
-  <!-- Script to store and redirect -->
+  <!-- Saving Popup -->
+  <div id="savingPopup" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50">
+    <div class="bg-white p-6 rounded-lg text-center text-blue-900">
+      <div class="mb-4">
+        <svg class="animate-spin h-8 w-8 text-blue-800 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+        </svg>
+      </div>
+      <p class="text-lg font-semibold">Saving your details...</p>
+    </div>
+  </div>
+
   <script>
-    document.getElementById("signupForm").addEventListener("submit", function(e) {
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
-      // Show loader
-      document.getElementById("btnText").textContent = "Saving...";
-      document.getElementById("loader").classList.remove("hidden");
-
-      const userInfo = {
-        phone: localStorage.getItem("userPhone") || "",
-        firstName: document.getElementById("firstName").value,
-        middleName: document.getElementById("middleName").value,
-        lastName: document.getElementById("lastName").value,
-        dob: document.getElementById("dob").value,
-        idNumber: document.getElementById("idNumber").value,
-        email: document.getElementById("email").value,
-        gender: document.getElementById("gender").value,
-        altPhone: document.getElementById("altPhone").value
+      const data = {
+        firstName: document.getElementById('firstName').value,
+        middleName: document.getElementById('middleName').value,
+        lastName: document.getElementById('lastName').value,
+        dob: document.getElementById('dob').value,
+        idNumber: document.getElementById('idNumber').value,
+        email: document.getElementById('email').value,
+        gender: document.getElementById('gender').value,
+        altPhone: document.getElementById('altPhone').value
       };
 
-      // Save to localStorage
-      localStorage.setItem("signupInfo", JSON.stringify(userInfo));
+      // Store in localStorage
+      for (const key in data) {
+        localStorage.setItem(key, data[key]);
+      }
 
-      // Delay then redirect
+      // Show popup
+      document.getElementById('savingPopup').classList.remove('hidden');
+
+      // Redirect after 2.5 seconds
       setTimeout(() => {
         window.location.href = "otherdetails.html";
-      }, 2000);
+      }, 2500);
     });
   </script>
 </body>
