@@ -2,107 +2,130 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Other Details - Mwananchi Credit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mwananchi Credit - Additional Info</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-    }
-    .fixed-logo {
-      position: fixed;
-      top: 0;
-      left: 0;
-      padding: 16px;
-      z-index: 50;
-      background-color: white;
-      width: 100%;
-      border-bottom: 1px solid #ddd;
-    }
-    .form-section {
-      margin-top: 100px;
-    }
-  </style>
 </head>
-<body class="bg-gray-100 min-h-screen text-gray-800">
+<body class="bg-white text-gray-800 font-sans">
 
-  <!-- Logo Fixed at Top -->
-  <div class="fixed-logo flex items-center">
-    <img src="logo.png" alt="Mwananchi Credit Logo" class="h-10 mr-2">
-    <span class="font-bold text-xl text-blue-900">Mwananchi Credit</span>
-  </div>
-
-  <!-- Form Section -->
-  <div class="form-section px-4 py-6 max-w-lg mx-auto bg-white rounded-lg shadow">
-    <h2 class="text-2xl font-semibold mb-4">Educational & Employment Info</h2>
-    <p class="mb-4 text-sm text-gray-600">Please fill in your educational background and employment details to proceed.</p>
-
-    <form id="educationForm">
-      <label class="block mb-2 font-medium">Education Level</label>
-      <select id="education" class="w-full p-2 mb-4 border border-gray-300 rounded" required>
-        <option value="">Select</option>
-        <option>Primary</option>
-        <option>Secondary</option>
-        <option>College</option>
-        <option>University</option>
-        <option>Other</option>
-      </select>
-
-      <label class="block mb-2 font-medium">Employment Status</label>
-      <select id="employment" class="w-full p-2 mb-4 border border-gray-300 rounded" required>
-        <option value="">Select</option>
-        <option>Employed</option>
-        <option>Self-Employed</option>
-        <option>Unemployed</option>
-        <option>Student</option>
-        <option>Other</option>
-      </select>
-
-      <label class="block mb-2 font-medium">Monthly Income (KES)</label>
-      <input type="number" id="income" placeholder="e.g. 25000" class="w-full p-2 mb-6 border border-gray-300 rounded" required />
-
-      <button type="submit" class="w-full bg-blue-800 text-white py-3 rounded font-semibold hover:bg-blue-900 transition">
-        Continue
-      </button>
-    </form>
-  </div>
-
-  <!-- Footer -->
-  <footer class="text-center text-xs mt-8 mb-4 text-gray-500">
-    © 2025 Mwananchi Credit. All rights reserved.
-  </footer>
-
-  <!-- Popup -->
-  <div id="savingPopup" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg px-6 py-8 text-center">
-      <img src="logo.png" alt="Logo" class="w-12 mx-auto mb-4 animate-spin">
-      <p class="text-lg font-medium text-blue-900">Saving your details...</p>
+  <!-- Fixed Logo -->
+  <div class="fixed top-0 left-0 w-full bg-white z-50 shadow-md">
+    <div class="p-4 flex items-center justify-start">
+      <img src="logo.png" alt="Mwananchi Credit Logo" class="w-12 h-12 mr-2">
+      <span class="text-xl font-semibold">Mwananchi Credit</span>
     </div>
   </div>
 
+  <!-- Main Form -->
+  <div class="mt-20 px-4 pb-24 max-w-2xl mx-auto">
+    <h2 class="text-xl font-bold mb-4">Additional Information</h2>
+    <p class="text-sm text-gray-600 mb-6">Help us know you better</p>
+
+    <!-- County -->
+    <label class="block mb-2 text-sm">County</label>
+    <select class="w-full p-2 border rounded mb-4">
+      <option>Select County</option>
+      <option>Nairobi</option>
+      <option>Mombasa</option>
+      <option>Kisumu</option>
+      <!-- ...all other 47 counties -->
+    </select>
+
+    <!-- Town -->
+    <label class="block mb-2 text-sm">Town (Constituency)</label>
+    <select class="w-full p-2 border rounded mb-4">
+      <option>Select Town</option>
+      <option>Lang’ata</option>
+      <option>Kasarani</option>
+      <option>Embakasi</option>
+      <!-- add all constituencies -->
+    </select>
+
+    <!-- Education -->
+    <label class="block mb-2 text-sm">Education</label>
+    <select class="w-full p-2 border rounded mb-4">
+      <option>Select Education Level</option>
+      <option>Primary</option>
+      <option>Secondary</option>
+      <option>College</option>
+      <option>University</option>
+      <option>Other</option>
+    </select>
+
+    <!-- Employment -->
+    <label class="block mb-2 text-sm">Employment Type</label>
+    <select class="w-full p-2 border rounded mb-4">
+      <option>Select Employment Type</option>
+      <option>Employed</option>
+      <option>Self-employed</option>
+      <option>Student</option>
+      <option>Unemployed</option>
+    </select>
+
+    <!-- Income -->
+    <label class="block mb-2 text-sm">Monthly Income</label>
+    <input type="number" placeholder="Enter monthly income" class="w-full p-2 border rounded mb-4" />
+
+    <!-- Additional Info -->
+    <label class="block mb-2 text-sm">Do you have children under 18?</label>
+    <div class="flex gap-4 mb-4">
+      <label><input type="radio" name="children" /> Yes</label>
+      <label><input type="radio" name="children" /> No</label>
+    </div>
+
+    <label class="block mb-2 text-sm">Do you currently have outstanding debt?</label>
+    <div class="flex gap-4 mb-4">
+      <label><input type="radio" name="debt" /> Yes</label>
+      <label><input type="radio" name="debt" /> No</label>
+    </div>
+
+    <label class="block mb-2 text-sm">Do you have an active loan?</label>
+    <div class="flex gap-4 mb-4">
+      <label><input type="radio" name="loan" /> Yes</label>
+      <label><input type="radio" name="loan" /> No</label>
+    </div>
+
+    <label class="block mb-2 text-sm">Do you agree to be contacted before the loan due date?</label>
+    <div class="flex gap-4 mb-6">
+      <label><input type="radio" name="contact" /> Yes</label>
+      <label><input type="radio" name="contact" /> No</label>
+    </div>
+
+    <!-- Referee Info -->
+    <h3 class="text-md font-semibold mb-2">Referee Details</h3>
+    <label class="block mb-2 text-sm">Referee Full Name</label>
+    <input type="text" placeholder="Enter referee name" class="w-full p-2 border rounded mb-4" />
+
+    <label class="block mb-2 text-sm">Referee Phone Number</label>
+    <input type="text" placeholder="07XXXXXXXX" class="w-full p-2 border rounded mb-4" />
+
+    <label class="block mb-2 text-sm">Relationship to Referee</label>
+    <select class="w-full p-2 border rounded mb-8">
+      <option>Select relationship</option>
+      <option>Parent</option>
+      <option>Sibling</option>
+      <option>Friend</option>
+      <option>Colleague</option>
+      <option>Other</option>
+    </select>
+
+    <!-- Continue Button -->
+    <button onclick="continueToNext()" class="w-full bg-blue-700 text-white py-3 rounded hover:bg-blue-800 transition">
+      Continue
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 text-sm text-center text-gray-600 py-4">
+    Support service: 0701-201-0001 (Mon–Sun: 8AM–6PM)
+  </footer>
+
+  <!-- JS -->
   <script>
-    // Populate phone number or previously saved info (optional display/logs)
-    const phone = localStorage.getItem('phoneNumber');
-
-    // Handle form submission
-    document.getElementById('educationForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const education = document.getElementById('education').value;
-      const employment = document.getElementById('employment').value;
-      const income = document.getElementById('income').value;
-
-      // Save to localStorage
-      localStorage.setItem('educationLevel', education);
-      localStorage.setItem('employmentStatus', employment);
-      localStorage.setItem('monthlyIncome', income);
-
-      // Show popup then redirect
-      document.getElementById('savingPopup').classList.remove('hidden');
-
-      setTimeout(() => {
-        window.location.href = 'referee.html'; // next step
-      }, 2500);
-    });
+    function continueToNext() {
+      // Save form data logic if needed
+      window.location.href = "checklimit.html";
+    }
   </script>
 </body>
 </html>
