@@ -6,57 +6,53 @@
   <title>Signup - Mwananchi Credit</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen text-white font-sans">
+<body class="bg-gradient-to-br from-blue-900 to-blue-600 min-h-screen text-white font-sans flex flex-col items-center">
 
   <!-- Header -->
-  <header class="p-4">
-    <div class="flex items-center space-x-3">
-      <img src="mwananchi-logo.png" alt="Logo" class="w-10 h-10 rounded-full border border-orange-500">
-      <h1 class="text-xl font-bold">Mwananchi Credit</h1>
-    </div>
-  </header>
+  <div class="w-full p-4 flex justify-between items-center">
+    <img src="logo.png" alt="Mwananchi Credit Logo" class="w-16 h-16"/>
+    <h1 class="text-xl font-bold">Mwananchi Credit</h1>
+  </div>
 
-  <!-- Main Content -->
-  <main class="flex flex-col items-center px-6 py-4">
-    <h2 class="text-2xl font-bold mb-2">Personal Information</h2>
-    <p class="text-sm text-gray-200 mb-4">Fill in your personal details to continue</p>
+  <div class="w-full max-w-md bg-white text-gray-900 p-6 mt-4 rounded-2xl shadow-lg">
+    <h2 class="text-lg font-semibold mb-1">Personal Information</h2>
+    <p class="text-sm text-gray-500 mb-4">Fill in your personal details to continue</p>
 
-    <div class="w-full max-w-md bg-white text-black rounded-xl shadow-lg p-6 space-y-4">
-
+    <form id="signupForm" class="space-y-4">
       <div>
-        <label for="firstName" class="block font-semibold mb-1">First Name</label>
-        <input type="text" id="firstName" placeholder="Enter First Name" class="w-full p-2 border border-gray-300 rounded">
+        <label class="block text-sm font-medium">First Name</label>
+        <input type="text" id="firstName" required class="w-full mt-1 p-2 border rounded" placeholder="Enter First Name"/>
       </div>
 
       <div>
-        <label for="middleName" class="block font-semibold mb-1">Middle Name (optional)</label>
-        <input type="text" id="middleName" placeholder="Enter Middle Name" class="w-full p-2 border border-gray-300 rounded">
+        <label class="block text-sm font-medium">Middle Name (optional)</label>
+        <input type="text" id="middleName" class="w-full mt-1 p-2 border rounded" placeholder="Enter Middle Name"/>
       </div>
 
       <div>
-        <label for="lastName" class="block font-semibold mb-1">Last Name</label>
-        <input type="text" id="lastName" placeholder="Enter Last Name" class="w-full p-2 border border-gray-300 rounded">
+        <label class="block text-sm font-medium">Last Name</label>
+        <input type="text" id="lastName" required class="w-full mt-1 p-2 border rounded" placeholder="Enter Last Name"/>
       </div>
 
       <div>
-        <label for="dob" class="block font-semibold mb-1">Date of Birth</label>
-        <input type="date" id="dob" class="w-full p-2 border border-gray-300 rounded">
+        <label class="block text-sm font-medium">Date of Birth</label>
+        <input type="date" id="dob" required class="w-full mt-1 p-2 border rounded"/>
       </div>
 
       <div>
-        <label for="idNumber" class="block font-semibold mb-1">National ID Number</label>
-        <input type="number" id="idNumber" placeholder="Enter ID Number" class="w-full p-2 border border-gray-300 rounded">
+        <label class="block text-sm font-medium">National ID Number</label>
+        <input type="text" id="idNumber" required class="w-full mt-1 p-2 border rounded" placeholder="Enter ID Number"/>
       </div>
 
       <div>
-        <label for="email" class="block font-semibold mb-1">Email</label>
-        <input type="email" id="email" placeholder="example@gmail.com" class="w-full p-2 border border-gray-300 rounded">
+        <label class="block text-sm font-medium">Email</label>
+        <input type="email" id="email" required class="w-full mt-1 p-2 border rounded" placeholder="example@gmail.com"/>
       </div>
 
       <div>
-        <label for="gender" class="block font-semibold mb-1">Gender</label>
-        <select id="gender" class="w-full p-2 border border-gray-300 rounded">
-          <option value="">Select Gender</option>
+        <label class="block text-sm font-medium">Gender</label>
+        <select id="gender" required class="w-full mt-1 p-2 border rounded">
+          <option value="" disabled selected>Select Gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
           <option value="Other">Other</option>
@@ -64,60 +60,47 @@
       </div>
 
       <div>
-        <label for="altPhone" class="block font-semibold mb-1">Alternative Phone (optional)</label>
-        <input type="tel" id="altPhone" placeholder="+254 7XXXXXXXX" class="w-full p-2 border border-gray-300 rounded">
+        <label class="block text-sm font-medium">Alternative Phone (optional)</label>
+        <input type="text" id="altPhone" class="w-full mt-1 p-2 border rounded" placeholder="+254 7XXXXXXXX"/>
       </div>
 
-      <button onclick="submitSignup()" class="w-full mt-4 bg-orange-500 hover:bg-orange-400 text-white font-semibold py-2 rounded transition duration-300">
-        Continue
-      </button>
+      <!-- Submit Button -->
+      <button type="submit" class="w-full bg-blue-700 text-white py-2 rounded hover:bg-blue-800 transition">Continue</button>
+    </form>
 
+    <!-- Loader -->
+    <div id="loader" class="hidden flex justify-center mt-6">
+      <svg class="animate-spin h-8 w-8 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+      </svg>
     </div>
-  </main>
+  </div>
 
-  <!-- Footer -->
-  <footer class="text-center text-sm text-gray-300 p-4 border-t border-gray-600 mt-4">
-    <p>Support: 0701-201-0001 (8AM–6PM Daily)</p>
-    <p>Email: <a href="mailto:support@mwananchicredit.co.ke" class="underline">support@mwananchicredit.co.ke</a></p>
-  </footer>
-
-  <!-- Script -->
   <script>
-    // Preload phone from localStorage
-    const phone = localStorage.getItem("userPhone");
-    if (!phone) {
-      alert("No phone number found. Redirecting...");
-      window.location.href = "register.html";
-    }
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
+      e.preventDefault();
 
-    function submitSignup() {
-      const firstName = document.getElementById("firstName").value.trim();
-      const middleName = document.getElementById("middleName").value.trim();
-      const lastName = document.getElementById("lastName").value.trim();
-      const dob = document.getElementById("dob").value;
-      const idNumber = document.getElementById("idNumber").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const gender = document.getElementById("gender").value;
-      const altPhone = document.getElementById("altPhone").value.trim();
+      // Save details to localStorage
+      localStorage.setItem("firstName", document.getElementById("firstName").value);
+      localStorage.setItem("middleName", document.getElementById("middleName").value);
+      localStorage.setItem("lastName", document.getElementById("lastName").value);
+      localStorage.setItem("dob", document.getElementById("dob").value);
+      localStorage.setItem("idNumber", document.getElementById("idNumber").value);
+      localStorage.setItem("email", document.getElementById("email").value);
+      localStorage.setItem("gender", document.getElementById("gender").value);
+      localStorage.setItem("altPhone", document.getElementById("altPhone").value);
 
-      if (!firstName || !lastName || !dob || !idNumber || !email || !gender) {
-        alert("Please fill in all required fields.");
-        return;
-      }
+      // Show loader
+      document.getElementById("signupForm").classList.add("hidden");
+      document.getElementById("loader").classList.remove("hidden");
 
-      // Save data to localStorage
-      localStorage.setItem("firstName", firstName);
-      localStorage.setItem("middleName", middleName);
-      localStorage.setItem("lastName", lastName);
-      localStorage.setItem("dob", dob);
-      localStorage.setItem("idNumber", idNumber);
-      localStorage.setItem("email", email);
-      localStorage.setItem("gender", gender);
-      localStorage.setItem("altPhone", altPhone);
-
-      // Proceed
-      window.location.href = "checklimit.html";
-    }
+      // Redirect after 2.5 seconds
+      setTimeout(() => {
+        window.location.href = "otherdetails.html";
+      }, 2500);
+    });
   </script>
 
 </body>
