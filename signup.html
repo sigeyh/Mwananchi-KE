@@ -35,4 +35,90 @@
 
       <div>
         <label for="lastName" class="block font-semibold mb-1">Last Name</label>
-        <input type="text"
+        <input type="text" id="lastName" placeholder="Enter Last Name" class="w-full p-2 border border-gray-300 rounded">
+      </div>
+
+      <div>
+        <label for="dob" class="block font-semibold mb-1">Date of Birth</label>
+        <input type="date" id="dob" class="w-full p-2 border border-gray-300 rounded">
+      </div>
+
+      <div>
+        <label for="idNumber" class="block font-semibold mb-1">National ID Number</label>
+        <input type="number" id="idNumber" placeholder="Enter ID Number" class="w-full p-2 border border-gray-300 rounded">
+      </div>
+
+      <div>
+        <label for="email" class="block font-semibold mb-1">Email</label>
+        <input type="email" id="email" placeholder="example@gmail.com" class="w-full p-2 border border-gray-300 rounded">
+      </div>
+
+      <div>
+        <label for="gender" class="block font-semibold mb-1">Gender</label>
+        <select id="gender" class="w-full p-2 border border-gray-300 rounded">
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="altPhone" class="block font-semibold mb-1">Alternative Phone (optional)</label>
+        <input type="tel" id="altPhone" placeholder="+254 7XXXXXXXX" class="w-full p-2 border border-gray-300 rounded">
+      </div>
+
+      <button onclick="submitSignup()" class="w-full mt-4 bg-orange-500 hover:bg-orange-400 text-white font-semibold py-2 rounded transition duration-300">
+        Continue
+      </button>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-300 p-4 border-t border-gray-600 mt-4">
+    <p>Support: 0701-201-0001 (8AM–6PM Daily)</p>
+    <p>Email: <a href="mailto:support@mwananchicredit.co.ke" class="underline">support@mwananchicredit.co.ke</a></p>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    // Preload phone from localStorage
+    const phone = localStorage.getItem("userPhone");
+    if (!phone) {
+      alert("No phone number found. Redirecting...");
+      window.location.href = "register.html";
+    }
+
+    function submitSignup() {
+      const firstName = document.getElementById("firstName").value.trim();
+      const middleName = document.getElementById("middleName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const dob = document.getElementById("dob").value;
+      const idNumber = document.getElementById("idNumber").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const gender = document.getElementById("gender").value;
+      const altPhone = document.getElementById("altPhone").value.trim();
+
+      if (!firstName || !lastName || !dob || !idNumber || !email || !gender) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      // Save data to localStorage
+      localStorage.setItem("firstName", firstName);
+      localStorage.setItem("middleName", middleName);
+      localStorage.setItem("lastName", lastName);
+      localStorage.setItem("dob", dob);
+      localStorage.setItem("idNumber", idNumber);
+      localStorage.setItem("email", email);
+      localStorage.setItem("gender", gender);
+      localStorage.setItem("altPhone", altPhone);
+
+      // Proceed
+      window.location.href = "checklimit.html";
+    }
+  </script>
+
+</body>
+</html>
