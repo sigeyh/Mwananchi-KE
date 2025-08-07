@@ -2,161 +2,156 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Other Details - Mwananchi Credit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Other Details</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      background: linear-gradient(to bottom right, #002f6c, #f7931e);
-      color: white;
-    }
-    select, input[type="text"], input[type="number"], input[type="date"], input[type="tel"], input[type="email"] {
-      color: black;
-    }
-  </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="bg-gradient-to-b from-blue-900 via-blue-800 to-blue-700 text-white min-h-screen">
 
-  <!-- Fixed Logo -->
-  <div class="p-4 fixed top-0 left-0 z-10">
-    <img src="logo.png" alt="Mwananchi Credit Logo" class="h-12">
+  <!-- Fixed Top Logo -->
+  <div class="fixed top-0 left-0 w-full bg-blue-900 z-50 p-3">
+    <img src="logo.png" alt="Mwananchi Credit" class="w-28">
   </div>
 
-  <!-- Form Content -->
-  <div class="flex-grow pt-20 px-4 max-w-xl mx-auto w-full">
-    <h2 class="text-2xl font-bold mb-6 text-center">Additional Information</h2>
-    <form id="detailsForm" class="space-y-4">
-      
-      <!-- County -->
-      <label>County</label>
-      <select id="county" class="w-full p-2 rounded" required></select>
+  <!-- Form Container -->
+  <div class="pt-24 px-4 pb-10 max-w-2xl mx-auto">
+    <h2 class="text-xl font-semibold mb-4">Additional Information</h2>
+    <p class="mb-6 text-sm text-gray-200">Help us know you better</p>
 
-      <!-- Town/Constituency -->
-      <label>Town / Constituency</label>
-      <select id="constituency" class="w-full p-2 rounded" required>
-        <option value="">Select constituency</option>
-      </select>
-
-      <!-- Education -->
-      <label>Education</label>
-      <select class="w-full p-2 rounded" required>
-        <option value="">Select education level</option>
-        <option>Primary</option>
-        <option>Secondary</option>
-        <option>Diploma</option>
-        <option>Degree</option>
-        <option>Postgraduate</option>
-      </select>
-
-      <!-- Employment -->
-      <label>Employment Type</label>
-      <select class="w-full p-2 rounded" required>
-        <option value="">Select employment type</option>
-        <option>Employed</option>
-        <option>Self-employed</option>
-        <option>Unemployed</option>
-        <option>Student</option>
-      </select>
-
-      <!-- Income -->
-      <label>Monthly Income</label>
-      <input type="number" class="w-full p-2 rounded" placeholder="Enter monthly income" required>
-
-      <!-- Children -->
-      <label>Do you have children under 18?</label>
-      <div class="flex gap-4">
-        <label><input type="radio" name="children" value="Yes" required> Yes</label>
-        <label><input type="radio" name="children" value="No" required> No</label>
+    <!-- County & Constituency -->
+    <div class="grid md:grid-cols-2 gap-4 mb-4">
+      <div>
+        <label for="county" class="block mb-1">County</label>
+        <select id="county" class="w-full p-2 rounded text-black" onchange="updateConstituencies(this.value)">
+          <option value="">Select County</option>
+        </select>
       </div>
-
-      <!-- Debt -->
-      <label>Do you currently have outstanding debt?</label>
-      <div class="flex gap-4">
-        <label><input type="radio" name="debt" value="Yes" required> Yes</label>
-        <label><input type="radio" name="debt" value="No" required> No</label>
+      <div>
+        <label for="constituency" class="block mb-1">Town / Constituency</label>
+        <select id="constituency" class="w-full p-2 rounded text-black">
+          <option value="">Select Town</option>
+        </select>
       </div>
+    </div>
 
-      <!-- Active Loan -->
-      <label>Do you have an active loan?</label>
-      <div class="flex gap-4">
-        <label><input type="radio" name="loan" value="Yes" required> Yes</label>
-        <label><input type="radio" name="loan" value="No" required> No</label>
+    <!-- Education & Employment -->
+    <div class="grid md:grid-cols-2 gap-4 mb-4">
+      <div>
+        <label class="block mb-1">Education Level</label>
+        <select class="w-full p-2 rounded text-black">
+          <option value="">Select Education Level</option>
+          <option>Primary</option>
+          <option>Secondary</option>
+          <option>College</option>
+          <option>University</option>
+        </select>
       </div>
-
-      <!-- Contact Before Due -->
-      <label>Do you agree to be contacted before the loan due date?</label>
-      <div class="flex gap-4">
-        <label><input type="radio" name="contact" value="Yes" required> Yes</label>
-        <label><input type="radio" name="contact" value="No" required> No</label>
+      <div>
+        <label class="block mb-1">Employment Type</label>
+        <select class="w-full p-2 rounded text-black">
+          <option value="">Select Employment Type</option>
+          <option>Self-employed</option>
+          <option>Employed</option>
+          <option>Unemployed</option>
+        </select>
       </div>
+    </div>
 
-      <!-- Referee -->
-      <h3 class="text-lg font-semibold mt-6">Referee Details</h3>
-      <label>Referee Full Name</label>
-      <input type="text" class="w-full p-2 rounded" placeholder="Enter referee name" required>
+    <!-- Monthly Income -->
+    <div class="mb-4">
+      <label class="block mb-1">Monthly Income</label>
+      <input type="number" class="w-full p-2 rounded text-black" placeholder="Enter monthly income">
+    </div>
 
-      <label>Referee Phone Number</label>
-      <input type="tel" class="w-full p-2 rounded" placeholder="07XXXXXXXX" required>
+    <!-- Additional Yes/No Questions -->
+    <div class="mb-6 space-y-4">
+      <div>
+        <label>Do you have children under 18?</label><br>
+        <label><input type="radio" name="children" value="Yes"> Yes</label>
+        <label class="ml-4"><input type="radio" name="children" value="No"> No</label>
+      </div>
+      <div>
+        <label>Do you currently have outstanding debt?</label><br>
+        <label><input type="radio" name="debt" value="Yes"> Yes</label>
+        <label class="ml-4"><input type="radio" name="debt" value="No"> No</label>
+      </div>
+      <div>
+        <label>Do you have an active loan?</label><br>
+        <label><input type="radio" name="loan" value="Yes"> Yes</label>
+        <label class="ml-4"><input type="radio" name="loan" value="No"> No</label>
+      </div>
+      <div>
+        <label>Do you agree to be contacted before the loan due date?</label><br>
+        <label><input type="radio" name="contact" value="Yes"> Yes</label>
+        <label class="ml-4"><input type="radio" name="contact" value="No"> No</label>
+      </div>
+    </div>
 
-      <label>Relationship to Referee</label>
-      <select class="w-full p-2 rounded" required>
+    <!-- Referee Information -->
+    <div class="mb-4">
+      <label class="block mb-1">Referee Full Name</label>
+      <input type="text" class="w-full p-2 rounded text-black" placeholder="Enter referee name">
+    </div>
+    <div class="mb-4">
+      <label class="block mb-1">Referee Phone Number</label>
+      <input type="tel" class="w-full p-2 rounded text-black" placeholder="07XXXXXXXX">
+    </div>
+    <div class="mb-6">
+      <label class="block mb-1">Relationship to Referee</label>
+      <select class="w-full p-2 rounded text-black">
         <option value="">Select relationship</option>
         <option>Parent</option>
         <option>Sibling</option>
-        <option>Spouse</option>
         <option>Friend</option>
         <option>Colleague</option>
       </select>
+    </div>
 
-      <button type="submit" class="bg-white text-blue-900 font-bold w-full py-3 mt-4 rounded shadow-lg hover:bg-gray-100">Continue</button>
-    </form>
+    <!-- Continue Button -->
+    <button onclick="submitForm()" class="w-full py-3 bg-white text-blue-900 font-bold rounded hover:bg-gray-200">
+      Continue
+    </button>
+
+    <!-- Support -->
+    <p class="mt-6 text-sm text-center text-gray-300">Support service: 0701-201-0001 (Mon–Sun: 8AM–6PM)</p>
   </div>
 
-  <!-- Footer -->
-  <footer class="text-center py-4 text-sm bg-white text-gray-800 mt-10">
-    Support service: 0701-201-0001 (Mon–Sun: 8AM–6PM)
-  </footer>
-
+  <!-- Dynamic Constituencies Script -->
   <script>
     const counties = {
-      "Nairobi": ["Westlands", "Dagoretti North", "Embakasi", "Langata", "Kibra"],
-      "Mombasa": ["Kisauni", "Nyali", "Changamwe", "Likoni", "Jomvu"],
-      "Kisumu": ["Kisumu East", "Kisumu West", "Seme", "Nyando", "Muhoroni"],
-      "Kiambu": ["Ruiru", "Thika", "Kiambaa", "Gatundu South", "Limuru"],
-      "Machakos": ["Kangundo", "Machakos Town", "Kathiani", "Mwala", "Masinga"],
-      // Add all 47 counties with full constituencies for complete list
+      "Nairobi": ["Westlands", "Lang’ata", "Dagoretti North", "Embakasi West", "Embakasi East", "Embakasi South", "Embakasi North"],
+      "Mombasa": ["Changamwe", "Jomvu", "Kisauni", "Nyali", "Likoni", "Mvita"],
+      "Kiambu": ["Gatundu South", "Ruiru", "Thika Town", "Githunguri", "Kabete", "Kiambaa", "Juja", "Limuru"],
+      "Machakos": ["Kathiani", "Kangundo", "Machakos Town", "Mwala", "Yatta", "Masinga", "Matungulu"],
+      // ... add all 47 counties and constituencies here ...
     };
 
     const countySelect = document.getElementById("county");
     const constituencySelect = document.getElementById("constituency");
 
-    // Populate counties
-    for (const county in counties) {
-      const opt = document.createElement("option");
-      opt.value = county;
-      opt.textContent = county;
-      countySelect.appendChild(opt);
-    }
+    Object.keys(counties).forEach(county => {
+      const option = document.createElement("option");
+      option.value = county;
+      option.textContent = county;
+      countySelect.appendChild(option);
+    });
 
-    // Populate constituencies when county changes
-    countySelect.addEventListener("change", () => {
-      constituencySelect.innerHTML = '<option value="">Select constituency</option>';
-      const selectedCounty = countySelect.value;
-      if (counties[selectedCounty]) {
-        counties[selectedCounty].forEach(constituency => {
-          const opt = document.createElement("option");
-          opt.value = constituency;
-          opt.textContent = constituency;
-          constituencySelect.appendChild(opt);
+    function updateConstituencies(county) {
+      constituencySelect.innerHTML = '<option value="">Select Town</option>';
+      if (counties[county]) {
+        counties[county].forEach(town => {
+          const option = document.createElement("option");
+          option.value = town;
+          option.textContent = town;
+          constituencySelect.appendChild(option);
         });
       }
-    });
+    }
 
-    document.getElementById("detailsForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      // You can save details to localStorage here if needed
-      window.location.href = "success.html";
-    });
+    function submitForm() {
+      // Future: validate & save to localStorage
+      window.location.href = "verify.html";
+    }
   </script>
 </body>
 </html>
