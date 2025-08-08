@@ -1,81 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Verification - Mwananchi Credit</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loan Verification - Mwananchi Credit</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .popup {
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .modal {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: flex;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
       align-items: center;
       justify-content: center;
       z-index: 50;
     }
-    .popup-content {
-      background: white;
-      color: black;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 400px;
-      width: 90%;
-      position: relative;
-    }
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 20px;
-      cursor: pointer;
-      color: #333;
+    .modal.active {
+      display: flex;
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-orange-500 min-h-screen flex flex-col items-center justify-center text-white p-4">
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen flex items-center justify-center text-white p-4">
 
-  <div class="bg-white text-black rounded-lg shadow-lg p-6 w-full max-w-md text-center">
-    <h1 class="text-2xl font-bold mb-4 text-blue-900">Verification</h1>
-    <p class="mb-4">Please follow the payment procedure to complete your loan verification.</p>
-    
-    <!-- Trigger button -->
-    <button onclick="openPopup()" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg mb-4">How to Pay</button>
-    
-    <!-- Next Button -->
-    <a href="success.html" class="bg-blue-900 hover:bg-blue-950 text-white px-6 py-2 rounded-lg">Next</a>
+  <div class="bg-white rounded-2xl shadow-lg p-6 w-full max-w-lg text-gray-900">
+    <!-- Header -->
+    <div class="flex items-center gap-3 mb-4">
+      <img src="logo.png" alt="Mwananchi Credit Logo" class="w-12 h-12 rounded-full border border-gray-200" />
+      <h1 class="text-2xl font-bold text-blue-900">Loan Verification</h1>
+    </div>
+
+    <!-- Loan Summary -->
+    <div class="bg-blue-50 border-l-4 border-orange-500 p-4 mb-6 rounded">
+      <p class="text-gray-700">You are applying for:</p>
+      <p class="text-xl font-bold text-blue-900" id="loanAmount">KSh 0</p>
+      <p class="text-gray-600 mt-1">Service Fee: <span class="font-semibold text-orange-600" id="serviceFee">KSh 0</span></p>
+    </div>
+
+    <!-- Payment Instructions -->
+    <h2 class="text-lg font-semibold text-blue-900 mb-3">How to Pay</h2>
+    <ol class="list-decimal list-inside space-y-2 text-gray-700">
+      <li>Go to <strong>M-Pesa</strong> on your phone.</li>
+      <li>Select <strong>Lipa na M-Pesa</strong>.</li>
+      <li>Choose <strong>Buy Goods & Services</strong>.</li>
+      <li>Enter Till Number: <strong class="text-orange-600">9824375</strong></li>
+      <li>Enter Service fee: <strong id="paymentAmount">KSh 0</strong></li>
+      <li>Enter M-Pesa PIN and confirm to Proceed.</li>
+    </ol>
+
+    <!-- Confirmation -->
+    <div class="mt-6">
+      <button onclick="openPopup()" class="w-full bg-orange-600 hover:bg-orange-500 text-white py-3 rounded-lg font-semibold shadow">
+        I've Paid - Confirm
+      </button>
+    </div>
   </div>
 
-  <!-- Popup -->
-  <div id="popup" class="popup hidden">
-    <div class="popup-content">
-      <span class="close-btn" onclick="closePopup()">&times;</span>
-      <h2 class="text-xl font-bold mb-3">Payment Procedure</h2>
-      <ol class="list-decimal list-inside text-left space-y-2">
-        <li>Go to your M-Pesa menu.</li>
-        <li>Select <strong>Lipa na M-Pesa</strong>.</li>
-        <li>Choose <strong>PayBill</strong>.</li>
-        <li>Enter Business Number: <strong>9824375</strong>.</li>
-        <li>Enter Account Number: <strong>Your Registered Phone Number</strong>.</li>
-        <li>Enter the Amount (Loan + Service Fee).</li>
-        <li>Enter your M-Pesa PIN and press OK.</li>
-      </ol>
+  <!-- M-Pesa Message Popup -->
+  <div id="popup" class="modal">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md text-gray-900">
+      <h2 class="text-xl font-bold mb-4 text-blue-900">Paste M-Pesa Message</h2>
+      <textarea id="mpesaMessage" rows="5" class="w-full border rounded p-2 mb-4" placeholder="Paste your M-Pesa confirmation message here..."></textarea>
+      <div id="errorMsg" class="text-red-600 text-sm mb-2 hidden">The message does not match the required payment amount.</div>
+      <div class="flex justify-end gap-3">
+        <button onclick="closePopup()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
+        <button onclick="verifyPayment()" class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-500">Verify</button>
+      </div>
     </div>
   </div>
 
   <script>
+    // Load data from localStorage
+    const loanAmount = localStorage.getItem('loanAmount') || 0;
+    const serviceFee = localStorage.getItem('serviceFee') || Math.round(loanAmount * 0.062);
+    const totalPayment = parseInt(serviceFee);
+
+    document.getElementById('loanAmount').textContent = `KSh ${parseInt(loanAmount).toLocaleString()}`;
+    document.getElementById('serviceFee').textContent = `KSh ${parseInt(serviceFee).toLocaleString()}`;
+    document.getElementById('paymentAmount').textContent = `KSh ${totalPayment.toLocaleString()}`;
+
     function openPopup() {
-      document.getElementById('popup').classList.remove('hidden');
+      document.getElementById('popup').classList.add('active');
     }
     function closePopup() {
-      document.getElementById('popup').classList.add('hidden');
+      document.getElementById('popup').classList.remove('active');
     }
-    // Auto-open popup when page loads
-    window.onload = openPopup;
+    function verifyPayment() {
+      const message = document.getElementById('mpesaMessage').value;
+      const feePattern = new RegExp(totalPayment, 'g');
+
+      if (feePattern.test(message)) {
+        // Payment verified
+        document.getElementById('errorMsg').classList.add('hidden');
+        window.location.href = "success.html";
+      } else {
+        // Show error
+        document.getElementById('errorMsg').classList.remove('hidden');
+      }
+    }
   </script>
 
 </body>
