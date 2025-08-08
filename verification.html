@@ -1,67 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mwananchi Loan Approval</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loan Verification - Mwananchi Credit</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-b from-blue-900 to-blue-700 min-h-screen flex flex-col items-center justify-center text-white p-4">
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen flex items-center justify-center text-white p-4">
 
-  <!-- Approval Message -->
-  <div class="bg-white text-blue-900 rounded-xl shadow-lg p-6 w-full max-w-md text-center relative z-10">
-    <div class="text-4xl mb-2">🎉</div>
-    <h1 class="text-2xl font-bold text-orange-500">Congratulations!</h1>
-    <p class="mt-2 text-lg">
-      You've successfully qualified for a personal loan from <span class="font-semibold">Mwananchi Loan</span>.
-    </p>
-    <p class="mt-4 text-xl font-bold text-blue-900">
-      Loan Limit Approved:
-    </p>
-    <p id="loanLimit" class="text-3xl font-extrabold text-orange-500 mt-1">Ksh 0</p>
-    <p class="mt-2 text-sm text-gray-600">
-      Service Fee: <span class="font-semibold">6.2%</span>
-    </p>
-    <p class="mt-4">
-      Your loan request has been evaluated and approved. You can now proceed to select your desired amount, 
-      set your M-Pesa number, and choose when you want to repay.
-    </p>
+  <div class="bg-white rounded-2xl shadow-lg p-6 w-full max-w-lg text-gray-900">
+    <!-- Header -->
+    <div class="flex items-center gap-3 mb-4">
+      <img src="logo.png" alt="Mwananchi Credit Logo" class="w-12 h-12 rounded-full border border-gray-200" />
+      <h1 class="text-2xl font-bold text-blue-900">Loan Verification</h1>
+    </div>
 
-    <!-- Continue Button -->
-    <button id="continueBtn"
-      class="mt-6 bg-blue-900 hover:bg-blue-800 text-white font-semibold py-2 px-6 rounded-lg transition">
-      Continue
-    </button>
-  </div>
+    <!-- Loan Summary -->
+    <div class="bg-blue-50 border-l-4 border-orange-500 p-4 mb-6 rounded">
+      <p class="text-gray-700">You are applying for:</p>
+      <p class="text-xl font-bold text-blue-900" id="loanAmount">KSh 0</p>
+      <p class="text-gray-600 mt-1">Service Fee: <span class="font-semibold text-orange-600" id="serviceFee">KSh 0</span></p>
+    </div>
 
-  <!-- Payment Verification Popup -->
-  <div id="verificationPopup" class="fixed inset-0 bg-black/80 flex flex-col items-center justify-center text-white text-center hidden z-50">
-    <svg class="animate-spin h-12 w-12 text-orange-400 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-    </svg>
-    <p class="text-lg font-semibold">Verifying Payment...</p>
+    <!-- Payment Instructions -->
+    <h2 class="text-lg font-semibold text-blue-900 mb-3">How to Pay</h2>
+    <ol class="list-decimal list-inside space-y-2 text-gray-700">
+      <li>Go to <strong>M-Pesa</strong> on your phone.</li>
+      <li>Select <strong>Lipa na M-Pesa</strong>.</li>
+      <li>Choose <strong>Paybill</strong>.</li>
+      <li>Enter Business Number: <strong class="text-orange-600">9824375</strong></li>
+      <li>Enter Account Number: <strong>Your Registered Phone Number</strong></li>
+      <li>Enter Amount: <strong id="paymentAmount">KSh 0</strong></li>
+      <li>Enter M-Pesa PIN and confirm.</li>
+    </ol>
+
+    <!-- Confirmation -->
+    <div class="mt-6">
+      <button onclick="confirmPayment()" class="w-full bg-orange-600 hover:bg-orange-500 text-white py-3 rounded-lg font-semibold shadow">
+        I've Paid - Confirm
+      </button>
+    </div>
   </div>
 
   <script>
-    // Generate loan limit between 1800 and 7500
-    const minLoan = 1800;
-    const maxLoan = 7500;
-    const loanLimit = Math.floor(Math.random() * (maxLoan - minLoan + 1)) + minLoan;
+    // Load data from localStorage
+    const loanAmount = localStorage.getItem('loanAmount') || 0;
+    const serviceFee = localStorage.getItem('serviceFee') || Math.round(loanAmount * 0.062);
+    const totalPayment = parseInt(serviceFee);
 
-    // Display loan limit
-    document.getElementById('loanLimit').textContent = `Ksh ${loanLimit.toLocaleString()}`;
+    document.getElementById('loanAmount').textContent = `KSh ${parseInt(loanAmount).toLocaleString()}`;
+    document.getElementById('serviceFee').textContent = `KSh ${parseInt(serviceFee).toLocaleString()}`;
+    document.getElementById('paymentAmount').textContent = `KSh ${totalPayment.toLocaleString()}`;
 
-    // Store in localStorage for next page
-    localStorage.setItem('loanLimit', loanLimit);
-
-    // Popup logic
-    document.getElementById('continueBtn').addEventListener('click', () => {
-      document.getElementById('verificationPopup').classList.remove('hidden');
-      setTimeout(() => {
-        window.location.href = 'loan.html';
-      }, 3000);
-    });
+    function confirmPayment() {
+      alert("Payment confirmation received. Your loan will be processed shortly.");
+      window.location.href = "success.html";
+    }
   </script>
 
 </body>
