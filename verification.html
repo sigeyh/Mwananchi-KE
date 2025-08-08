@@ -3,69 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loan Verification - Hakika Credit</title>
+  <title>Loan Summary - Zash Loan</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      overflow: hidden; /* Prevent scrolling */
-    }
-  </style>
 </head>
-<body class="bg-gradient-to-br from-red-700 to-red-500 text-white flex flex-col min-h-screen">
+<body class="bg-gradient-to-br from-red-600 via-red-500 to-red-400 min-h-screen text-white">
 
   <!-- Header -->
-  <header class="flex items-center p-4 bg-red-900">
-    <img src="logo.png" alt="Hakika Credit Logo" class="w-12 h-12 mr-3">
-    <h1 class="text-lg font-bold">Mwananchi Credit - Loan Verification</h1>
+  <header class="p-6 bg-red-800 shadow-lg">
+    <h1 class="text-2xl font-bold">Loan Summary</h1>
+    <p class="text-sm opacity-90">Please review your loan details before proceeding</p>
   </header>
 
-  <!-- Main Content -->
-  <main class="flex-1 flex flex-col items-center justify-center p-4 w-full">
-
-    <div class="bg-white text-black rounded-lg shadow-lg p-4 w-full max-w-lg">
-      <h2 class="text-xl font-bold mb-4 text-center">Loan Summary</h2>
-
-      <div class="mb-2 flex justify-between"><span>Loan Amount:</span><span id="loanAmount">--</span></div>
-      <div class="mb-2 flex justify-between"><span>Service Fee:</span><span id="serviceFee">--</span></div>
-      <div class="mb-2 flex justify-between"><span>Request Date:</span><span id="requestDate">--</span></div>
-      <div class="mb-2 flex justify-between"><span>Due Date:</span><span id="dueDate">--</span></div>
-      <div class="mb-4 flex justify-between"><span>M-Pesa Number:</span><span id="mpesaNumber">--</span></div>
-
-      <h3 class="text-lg font-semibold mb-2">Payment Instructions</h3>
-      <ol class="list-decimal list-inside text-sm space-y-1">
-        <li>Go to M-Pesa &gt; Lipa na M-Pesa</li>
-        <li>Select <b>Buy Goods and Services</b></li>
-        <li>Enter Till Number: <b>9824375</b> (<span class="text-red-700 font-bold">HAKIKA</span>)</li>
-        <li>Enter Amount: <span id="amountToPay" class="font-semibold">--</span></li>
-        <li>Enter your M-Pesa PIN and confirm</li>
-        <li>Wait for confirmation SMS</li>
-      </ol>
-
-      <div class="mt-4">
-        <label for="mpesaMessage" class="block mb-2 text-sm">Paste your full M-Pesa confirmation message:</label>
-        <textarea id="mpesaMessage" rows="3" class="w-full p-2 border rounded-lg" placeholder="e.g. HAKIKA R PROVISION Ksh XX received from..."></textarea>
+  <!-- Content -->
+  <main class="p-6 space-y-6">
+    <!-- Loan Details -->
+    <section class="bg-white text-gray-800 rounded-xl p-6 shadow-md w-full">
+      <h2 class="text-lg font-semibold border-b pb-2 mb-4">Loan Breakdown</h2>
+      <div class="space-y-3 text-base">
+        <p><strong>Loan Amount:</strong> <span id="loanAmount" class="font-medium"></span></p>
+        <p><strong>Interest:</strong> <span id="interest" class="font-medium"></span></p>
+        <p><strong>Service Fee:</strong> <span id="serviceFee" class="font-medium"></span></p>
+        <p><strong>Total to Repay:</strong> <span id="totalRepay" class="font-medium"></span></p>
+        <p><strong>Due Date:</strong> <span id="dueDate" class="font-medium"></span></p>
+        <p><strong>M-Pesa Phone:</strong> <span id="phoneNumber" class="font-medium"></span></p>
       </div>
+    </section>
 
-      <button class="mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg w-full">Submit</button>
+    <!-- Button -->
+    <div class="flex justify-center">
+      <button onclick="proceedLoan()" class="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-xl shadow-lg font-bold text-lg">
+        Confirm & Proceed
+      </button>
     </div>
-
   </main>
 
   <script>
-    // Load details from localStorage (set in previous step)
-    const loanAmount = localStorage.getItem("loanAmount") || 0;
-    const serviceFee = localStorage.getItem("serviceFee") || 0;
-    const requestDate = localStorage.getItem("requestDate") || new Date().toLocaleDateString();
-    const dueDate = localStorage.getItem("dueDate") || new Date(Date.now() + 7*24*60*60*1000).toLocaleDateString();
-    const mpesaNumber = localStorage.getItem("mpesaNumber") || "07XXXXXXXX";
-    const amountToPay = Number(serviceFee).toLocaleString();
+    // Load details from localStorage
+    document.addEventListener("DOMContentLoaded", function () {
+      let loanAmount = parseInt(localStorage.getItem("loanAmount")) || 0;
+      let interest = parseInt(localStorage.getItem("interest")) || 0;
+      let serviceFee = Math.floor(localStorage.getItem("serviceFee") || 0); // Remove decimals
+      let totalRepay = parseInt(localStorage.getItem("totalRepay")) || 0;
+      let dueDate = localStorage.getItem("dueDate") || "Not set";
+      let phoneNumber = localStorage.getItem("phoneNumber") || "Not set";
 
-    document.getElementById("loanAmount").textContent = "Ksh " + Number(loanAmount).toLocaleString();
-    document.getElementById("serviceFee").textContent = "Ksh " + Number(serviceFee).toLocaleString();
-    document.getElementById("requestDate").textContent = requestDate;
-    document.getElementById("dueDate").textContent = dueDate;
-    document.getElementById("mpesaNumber").textContent = mpesaNumber;
-    document.getElementById("amountToPay").textContent = "Ksh " + amountToPay;
+      document.getElementById("loanAmount").textContent = `KSh ${loanAmount.toLocaleString()}`;
+      document.getElementById("interest").textContent = `KSh ${interest.toLocaleString()}`;
+      document.getElementById("serviceFee").textContent = `KSh ${serviceFee.toLocaleString()}`;
+      document.getElementById("totalRepay").textContent = `KSh ${totalRepay.toLocaleString()}`;
+      document.getElementById("dueDate").textContent = dueDate;
+      document.getElementById("phoneNumber").textContent = phoneNumber;
+    });
+
+    // Redirect function
+    function proceedLoan() {
+      window.location.href = "verification.html";
+    }
   </script>
 
 </body>
