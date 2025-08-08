@@ -3,63 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loan Summary - Zash Loan</title>
+  <title>Loan Details - Zash Loan</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-red-600 via-red-500 to-red-400 min-h-screen text-white">
+<body class="bg-gradient-to-br from-red-700 to-red-500 text-white min-h-screen p-6">
+  <div class="max-w-3xl mx-auto space-y-6">
 
-  <!-- Header -->
-  <header class="p-6 bg-red-800 shadow-lg">
-    <h1 class="text-2xl font-bold">Loan Summary</h1>
-    <p class="text-sm opacity-90">Please review your loan details before proceeding</p>
-  </header>
-
-  <!-- Content -->
-  <main class="p-6 space-y-6">
     <!-- Loan Details -->
-    <section class="bg-white text-gray-800 rounded-xl p-6 shadow-md w-full">
-      <h2 class="text-lg font-semibold border-b pb-2 mb-4">Loan Breakdown</h2>
-      <div class="space-y-3 text-base">
-        <p><strong>Loan Amount:</strong> <span id="loanAmount" class="font-medium"></span></p>
-        <p><strong>Interest:</strong> <span id="interest" class="font-medium"></span></p>
-        <p><strong>Service Fee:</strong> <span id="serviceFee" class="font-medium"></span></p>
-        <p><strong>Total to Repay:</strong> <span id="totalRepay" class="font-medium"></span></p>
-        <p><strong>Due Date:</strong> <span id="dueDate" class="font-medium"></span></p>
-        <p><strong>M-Pesa Phone:</strong> <span id="phoneNumber" class="font-medium"></span></p>
-      </div>
-    </section>
-
-    <!-- Button -->
-    <div class="flex justify-center">
-      <button onclick="proceedLoan()" class="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-xl shadow-lg font-bold text-lg">
-        Confirm & Proceed
-      </button>
+    <div class="text-center">
+      <h1 class="text-3xl font-bold">Loan Details</h1>
+      <p class="text-lg mt-2">Review your loan information below</p>
     </div>
-  </main>
+
+    <div class="bg-white/10 p-6 rounded-lg shadow-lg space-y-4">
+      <p class="text-lg">Loan Amount: <span id="loanAmount" class="font-bold"></span></p>
+      <p class="text-lg">Interest: <span id="interest" class="font-bold"></span></p>
+      <p class="text-lg">Service Fee: <span id="serviceFee" class="font-bold"></span></p>
+      <p class="text-lg">Total to Repay: <span id="totalRepay" class="font-bold"></span></p>
+      <p class="text-lg">Due Date: <span id="dueDate" class="font-bold"></span></p>
+    </div>
+
+    <!-- Payment Details -->
+    <div class="bg-white/10 p-6 rounded-lg shadow-lg space-y-4">
+      <h2 class="text-2xl font-semibold">Payment Details</h2>
+      <p>Send payment to the following account:</p>
+      <p class="font-bold">M-Pesa Paybill: 123456</p>
+      <p class="font-bold">Account: ZashLoan</p>
+      <p class="text-sm text-gray-200">Ensure you use the phone number you registered with.</p>
+
+      <label class="block mt-4 text-lg font-medium">Paste Transaction Code:</label>
+      <input type="text" placeholder="Enter M-Pesa Transaction Code" class="w-full p-3 rounded-lg text-black" />
+    </div>
+
+  </div>
 
   <script>
-    // Load details from localStorage
-    document.addEventListener("DOMContentLoaded", function () {
-      let loanAmount = parseInt(localStorage.getItem("loanAmount")) || 0;
-      let interest = parseInt(localStorage.getItem("interest")) || 0;
-      let serviceFee = Math.floor(localStorage.getItem("serviceFee") || 0); // Remove decimals
-      let totalRepay = parseInt(localStorage.getItem("totalRepay")) || 0;
-      let dueDate = localStorage.getItem("dueDate") || "Not set";
-      let phoneNumber = localStorage.getItem("phoneNumber") || "Not set";
+    // Get stored values from localStorage
+    const loanAmount = parseFloat(localStorage.getItem('loanAmount')) || 0;
+    const interest = parseFloat(localStorage.getItem('interest')) || 0;
+    const serviceFee = Math.floor(parseFloat(localStorage.getItem('serviceFee')) || 0);
+    const totalRepay = parseFloat(localStorage.getItem('totalRepay')) || 0;
+    const dueDate = localStorage.getItem('dueDate') || 'N/A';
 
-      document.getElementById("loanAmount").textContent = `KSh ${loanAmount.toLocaleString()}`;
-      document.getElementById("interest").textContent = `KSh ${interest.toLocaleString()}`;
-      document.getElementById("serviceFee").textContent = `KSh ${serviceFee.toLocaleString()}`;
-      document.getElementById("totalRepay").textContent = `KSh ${totalRepay.toLocaleString()}`;
-      document.getElementById("dueDate").textContent = dueDate;
-      document.getElementById("phoneNumber").textContent = phoneNumber;
-    });
-
-    // Redirect function
-    function proceedLoan() {
-      window.location.href = "verification.html";
-    }
+    // Display values
+    document.getElementById('loanAmount').textContent = `KSh ${loanAmount.toLocaleString()}`;
+    document.getElementById('interest').textContent = `KSh ${interest.toLocaleString()}`;
+    document.getElementById('serviceFee').textContent = `KSh ${serviceFee.toLocaleString()}`;
+    document.getElementById('totalRepay').textContent = `KSh ${totalRepay.toLocaleString()}`;
+    document.getElementById('dueDate').textContent = dueDate;
   </script>
-
 </body>
 </html>
