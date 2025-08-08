@@ -2,109 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mwananchi Credit - Loan Limit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check Loan Limit - Mwananchi Credit</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 50;
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen flex flex-col items-center justify-center text-white p-4">
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white flex items-center justify-center min-h-screen p-4">
 
-  <div class="w-full max-w-lg bg-white text-gray-900 rounded-2xl shadow-lg p-6 text-center">
-    <img src="mwananchi-logo.png" alt="Mwananchi Credit Logo" class="mx-auto mb-4 w-28">
-    <h1 class="text-2xl font-bold text-blue-900">Checking Your Loan Limit</h1>
-    <p class="mt-2 text-gray-600">Please wait while we contact our servers...</p>
-
-    <!-- Loader -->
-    <div class="w-full bg-gray-200 rounded-full h-4 mt-6">
-      <div id="progressBar" class="bg-orange-500 h-4 rounded-full text-xs text-center text-white" style="width: 0%">0%</div>
+  <div class="max-w-md w-full bg-white text-gray-900 rounded-2xl shadow-xl p-6 text-center">
+    <img src="mwananchi-logo.png" alt="Mwananchi Credit" class="mx-auto mb-4 w-28">
+    
+    <h1 id="loading-text" class="text-xl font-bold text-blue-900">Contacting server... <span id="percent">0%</span></h1>
+    <div class="w-full bg-gray-200 rounded-full h-3 mt-4">
+      <div id="progress-bar" class="bg-orange-500 h-3 rounded-full" style="width: 0%"></div>
     </div>
-  </div>
 
-  <!-- Popup Modal -->
-  <div id="loanPopup" class="modal hidden">
-    <div class="bg-white rounded-2xl shadow-lg max-w-md w-full p-6 text-center">
-      <h2 class="text-3xl">🎉Congratulations</h2>
-      <p class="mt-2 text-gray-700">
-        You've successfully qualified for a personal loan from Mwananchi Credit.
-      </p>
-      <h3 class="mt-4 text-xl font-bold text-blue-900">Loan Limit Approved:</h3>
-      <p id="loanLimit" class="text-3xl font-extrabold text-orange-500 mt-2">KSh 0</p>
-      <p class="mt-3 text-gray-700">
-        Your loan request has been evaluated and approved. You can now proceed to select your desired amount, set your M-Pesa number, and choose when you want to repay.
-      </p>
-      <button onclick="goToLoanPage()" class="mt-6 bg-blue-900 text-white px-6 py-3 rounded-lg hover:bg-blue-800 transition">
-        Continue to Loan Request
-      </button>
+    <!-- Hidden until loading completes -->
+    <div id="result" class="hidden mt-6 animate-pulse">
+      <h2 class="text-2xl font-bold text-green-600">🎉 Congratulations!</h2>
+      <p class="mt-2">Your loan limit is:</p>
+      <p id="loan-limit" class="text-3xl font-extrabold text-blue-900 mt-2"></p>
+      <a href="loan.html" class="inline-block mt-6 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full transition">Proceed</a>
     </div>
   </div>
 
   <script>
-    // Preloaded Counties
-    const counties = [
-      "Mombasa","Kwale","Kilifi","Tana River","Lamu","Taita-Taveta","Garissa","Wajir","Mandera","Marsabit","Isiolo",
-      "Meru","Tharaka-Nithi","Embu","Kitui","Machakos","Makueni","Nyandarua","Nyeri","Kirinyaga","Murang'a","Kiambu",
-      "Turkana","West Pokot","Samburu","Trans Nzoia","Uasin Gishu","Elgeyo-Marakwet","Nandi","Baringo","Laikipia",
-      "Nakuru","Narok","Kajiado","Kericho","Bomet","Kakamega","Vihiga","Bungoma","Busia","Siaya","Kisumu","Homa Bay",
-      "Migori","Kisii","Nyamira","Nairobi"
-    ];
+    document.addEventListener("DOMContentLoaded", () => {
+      let percent = 0;
+      let loadingText = document.getElementById("loading-text");
+      let percentEl = document.getElementById("percent");
+      let progressBar = document.getElementById("progress-bar");
+      let result = document.getElementById("result");
+      let loanLimitEl = document.getElementById("loan-limit");
 
-    // Preloaded Constituencies (shortened here)
-    const constituencies = [
-      "Changamwe","Jomvu","Kisauni","Nyali","Likoni","Mvita", /* ...rest of 290 constituencies... */ "Westlands"
-    ];
+      // Random loan limit for example (between 3,000 and 15,000)
+      let loanLimit = Math.floor(Math.random() * (15000 - 3000 + 1)) + 3000;
 
-    let progress = 0;
-    const progressBar = document.getElementById('progressBar');
-    const loanPopup = document.getElementById('loanPopup');
-    const loanLimitEl = document.getElementById('loanLimit');
+      let loader = setInterval(() => {
+        percent += Math.floor(Math.random() * 15) + 5;
+        if (percent > 100) percent = 100;
 
-    // Loan limit logic: 80% chance below 5000, 20% chance up to 7500
-    function generateLoanLimit() {
-      if (Math.random() < 0.8) {
-        return Math.floor(Math.random() * (5000 - 1800 + 1)) + 1800;
-      } else {
-        return Math.floor(Math.random() * (7500 - 5000 + 1)) + 5000;
-      }
-    }
+        percentEl.textContent = percent + "%";
+        progressBar.style.width = percent + "%";
 
-    const loanLimit = generateLoanLimit();
-    const serviceFee = 6.2; // %
+        if (percent >= 100) {
+          clearInterval(loader);
+          // Store loan limit
+          localStorage.setItem("loanLimit", loanLimit);
 
-    const interval = setInterval(() => {
-      progress += Math.floor(Math.random() * 10) + 5;
-      if (progress > 100) progress = 100;
-      progressBar.style.width = progress + '%';
-      progressBar.textContent = progress + '%';
-
-      if (progress === 100) {
-        clearInterval(interval);
-        loanLimitEl.textContent = 'KSh ' + loanLimit.toLocaleString();
-        loanPopup.classList.remove('hidden');
-
-        // Store values for next page
-        localStorage.setItem('loanLimit', loanLimit);
-        localStorage.setItem('serviceFee', serviceFee);
-        localStorage.setItem('counties', JSON.stringify(counties));
-        localStorage.setItem('constituencies', JSON.stringify(constituencies));
-      }
-    }, 400);
-
-    function goToLoanPage() {
-      window.location.href = 'loan.html';
-    }
+          // Show result
+          loadingText.classList.add("hidden");
+          result.classList.remove("hidden");
+          loanLimitEl.textContent = "KSh " + loanLimit.toLocaleString();
+        }
+      }, 400);
+    });
   </script>
 
 </body>
