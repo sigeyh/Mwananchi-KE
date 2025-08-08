@@ -1,87 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Zash Loan - Loan Request</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mwananchi Credit - Loan Request</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #0b1d51, #003366);
+    }
+    .orange-btn {
+      background-color: #ff7f27;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-red-600 via-red-500 to-red-400 min-h-screen text-white font-sans">
-  <div class="max-w-md mx-auto p-4 flex flex-col min-h-screen">
-    
-    <!-- Header -->
-    <div class="flex items-center mb-6">
-      <img src="logo.png" alt="Zash Loan Logo" class="w-12 h-12 mr-3">
-      <h1 class="text-2xl font-bold">Loan Request</h1>
+<body class="gradient-bg min-h-screen flex flex-col text-white">
+
+  <!-- Header -->
+  <header class="flex items-center p-4 border-b border-orange-400">
+    <img src="mwananchi-logo.png" alt="Mwananchi Credit Logo" class="h-10 mr-3">
+    <h1 class="text-xl font-bold">Mwananchi Credit</h1>
+  </header>
+
+  <!-- Content -->
+  <main class="flex-grow p-6">
+    <h2 class="text-2xl font-bold mb-4">Loan Request</h2>
+    <p class="mb-6 text-orange-300">Your loan limit is determined instantly.</p>
+
+    <!-- Loan Limit Display -->
+    <div id="loanLimitBox" class="bg-white text-blue-900 rounded-xl p-6 shadow-lg mb-8">
+      <h3 class="text-lg font-semibold">Your Loan Limit:</h3>
+      <p id="loanLimit" class="text-4xl font-bold mt-2">Loading...</p>
     </div>
 
-    <!-- Loan Slider Section -->
-    <div class="bg-white bg-opacity-10 rounded-lg p-5 shadow-lg flex-grow">
-      <label for="loanAmount" class="block text-lg font-semibold mb-2">Select Loan Amount</label>
-      <input type="range" id="loanAmount" min="1800" max="7500" step="100" class="w-full" />
-
-      <p class="mt-2 text-xl font-bold">Ksh <span id="loanValue"></span></p>
-
-      <!-- Breakdown -->
-      <div class="mt-5 border-t border-white border-opacity-20 pt-4 space-y-2">
-        <p>Interest (15%): <span id="interest"></span></p>
-        <p>Service Fee (<span id="serviceRate"></span>%): <span id="serviceFee"></span></p>
-        <p class="font-bold">Total to Repay: <span id="totalRepay"></span></p>
-      </div>
+    <!-- Loan Amount Slider -->
+    <div class="mb-8">
+      <label for="loanAmount" class="block mb-2">Select Loan Amount:</label>
+      <input type="range" id="loanAmount" min="1000" max="50000" step="100" class="w-full">
+      <p class="mt-2">Selected: <span id="selectedAmount">Ksh 1000</span></p>
     </div>
 
-    <!-- Continue Button -->
-    <button id="continueBtn" class="mt-6 bg-white text-red-600 font-semibold py-3 rounded-lg shadow-md hover:bg-gray-200 transition">
-      Continue
-    </button>
-  </div>
+    <!-- Loan Breakdown -->
+    <div class="bg-white text-blue-900 rounded-xl p-6 shadow-lg mb-8">
+      <h3 class="text-lg font-semibold mb-4">Loan Breakdown</h3>
+      <p>Loan Amount: <span id="breakAmount">Ksh 1000</span></p>
+      <p>Interest (10%): <span id="breakInterest">Ksh 100</span></p>
+      <p>Service Fee (6.2%): <span id="breakFee">Ksh 62</span></p>
+      <hr class="my-2">
+      <p class="font-bold">Total Payable: <span id="breakTotal">Ksh 1162</span></p>
+    </div>
 
+    <!-- Request Button -->
+    <button id="requestLoan" class="orange-btn w-full py-3 text-lg font-bold rounded-lg shadow-lg">Request Loan</button>
+  </main>
+
+  <!-- Script -->
   <script>
-    // Get service fee rate from localStorage
-    const serviceRate = parseFloat(localStorage.getItem('serviceFee')) || 6.2;
-    document.getElementById('serviceRate').textContent = serviceRate;
-
-    const loanSlider = document.getElementById('loanAmount');
-    const loanValueDisplay = document.getElementById('loanValue');
-    const interestDisplay = document.getElementById('interest');
-    const serviceFeeDisplay = document.getElementById('serviceFee');
-    const totalRepayDisplay = document.getElementById('totalRepay');
-
-    // Random default loan value (80% chance under 5000)
-    let randomValue;
-    if (Math.random() < 0.8) {
-      randomValue = Math.floor(Math.random() * (5000 - 1800 + 1)) + 1800;
-    } else {
-      randomValue = Math.floor(Math.random() * (7500 - 5000 + 1)) + 5000;
-    }
-    loanSlider.value = randomValue;
-
-    function updateLoanDetails() {
-      const amount = parseInt(loanSlider.value);
-      loanValueDisplay.textContent = amount.toLocaleString();
-
-      const interest = Math.round(amount * 0.15);
-      const serviceFee = Math.round(amount * (serviceRate / 100));
-      const totalRepay = amount + interest + serviceFee;
-
-      interestDisplay.textContent = "Ksh " + interest.toLocaleString();
-      serviceFeeDisplay.textContent = "Ksh " + serviceFee.toLocaleString();
-      totalRepayDisplay.textContent = "Ksh " + totalRepay.toLocaleString();
-
-      // Save values in localStorage
-      localStorage.setItem('loanAmount', amount);
-      localStorage.setItem('interest', interest);
-      localStorage.setItem('serviceFeeValue', serviceFee);
-      localStorage.setItem('totalRepay', totalRepay);
+    // Generate random loan limit (80% chance below 5k)
+    function generateLoanLimit() {
+      let limit;
+      if (Math.random() < 0.8) {
+        limit = Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
+      } else {
+        limit = Math.floor(Math.random() * (50000 - 5000 + 1)) + 5000;
+      }
+      return limit;
     }
 
-    loanSlider.addEventListener('input', updateLoanDetails);
-    updateLoanDetails();
+    // Display loan limit
+    const loanLimit = generateLoanLimit();
+    document.getElementById('loanLimit').textContent = `Ksh ${loanLimit.toLocaleString()}`;
 
-    // Continue Button
-    document.getElementById('continueBtn').addEventListener('click', () => {
+    // Initialize slider with limit
+    const slider = document.getElementById('loanAmount');
+    const selectedAmount = document.getElementById('selectedAmount');
+    const breakAmount = document.getElementById('breakAmount');
+    const breakInterest = document.getElementById('breakInterest');
+    const breakFee = document.getElementById('breakFee');
+    const breakTotal = document.getElementById('breakTotal');
+
+    slider.max = loanLimit;
+    slider.value = 1000;
+
+    function updateBreakdown() {
+      let amount = parseInt(slider.value);
+      selectedAmount.textContent = `Ksh ${amount.toLocaleString()}`;
+      breakAmount.textContent = `Ksh ${amount.toLocaleString()}`;
+      let interest = Math.round(amount * 0.10);
+      let fee = Math.round(amount * 0.062);
+      breakInterest.textContent = `Ksh ${interest.toLocaleString()}`;
+      breakFee.textContent = `Ksh ${fee.toLocaleString()}`;
+      breakTotal.textContent = `Ksh ${(amount + interest + fee).toLocaleString()}`;
+    }
+
+    slider.addEventListener('input', updateBreakdown);
+    updateBreakdown();
+
+    // Store loan request in localStorage
+    document.getElementById('requestLoan').addEventListener('click', () => {
+      const loanData = {
+        limit: loanLimit,
+        amount: parseInt(slider.value),
+        interest: Math.round(slider.value * 0.10),
+        fee: Math.round(slider.value * 0.062),
+        total: parseInt(slider.value) + Math.round(slider.value * 0.10) + Math.round(slider.value * 0.062)
+      };
+      localStorage.setItem('loanRequest', JSON.stringify(loanData));
       window.location.href = 'verification.html';
     });
   </script>
+
 </body>
 </html>
