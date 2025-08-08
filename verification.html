@@ -9,6 +9,18 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+    .modal.active {
+      display: flex;
+    }
   </style>
 </head>
 <body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen flex items-center justify-center text-white p-4">
@@ -32,7 +44,7 @@
     <ol class="list-decimal list-inside space-y-2 text-gray-700">
       <li>Go to <strong>M-Pesa</strong> on your phone.</li>
       <li>Select <strong>Lipa na M-Pesa</strong>.</li>
-      <li>Choose <strong>Buy Goods & services</strong>.</li>
+      <li>Choose <strong>Buy Goods & Services</strong>.</li>
       <li>Enter Till Number: <strong class="text-orange-600">9824375</strong></li>
       <li>Enter Service fee: <strong id="paymentAmount">KSh 0</strong></li>
       <li>Enter M-Pesa PIN and confirm to Proceed.</li>
@@ -40,9 +52,22 @@
 
     <!-- Confirmation -->
     <div class="mt-6">
-      <button onclick="confirmPayment()" class="w-full bg-orange-600 hover:bg-orange-500 text-white py-3 rounded-lg font-semibold shadow">
+      <button onclick="openPopup()" class="w-full bg-orange-600 hover:bg-orange-500 text-white py-3 rounded-lg font-semibold shadow">
         I've Paid - Confirm
       </button>
+    </div>
+  </div>
+
+  <!-- M-Pesa Message Popup -->
+  <div id="popup" class="modal">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md text-gray-900">
+      <h2 class="text-xl font-bold mb-4 text-blue-900">Paste M-Pesa Message</h2>
+      <textarea id="mpesaMessage" rows="5" class="w-full border rounded p-2 mb-4" placeholder="Paste your M-Pesa confirmation message here..."></textarea>
+      <div id="errorMsg" class="text-red-600 text-sm mb-2 hidden">The message does not match the required payment amount.</div>
+      <div class="flex justify-end gap-3">
+        <button onclick="closePopup()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
+        <button onclick="verifyPayment()" class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-500">Verify</button>
+      </div>
     </div>
   </div>
 
@@ -56,9 +81,24 @@
     document.getElementById('serviceFee').textContent = `KSh ${parseInt(serviceFee).toLocaleString()}`;
     document.getElementById('paymentAmount').textContent = `KSh ${totalPayment.toLocaleString()}`;
 
-    function confirmPayment() {
-      alert("Payment confirmation received. Your loan will be processed shortly.");
-      window.location.href = "success.html";
+    function openPopup() {
+      document.getElementById('popup').classList.add('active');
+    }
+    function closePopup() {
+      document.getElementById('popup').classList.remove('active');
+    }
+    function verifyPayment() {
+      const message = document.getElementById('mpesaMessage').value;
+      const feePattern = new RegExp(totalPayment, 'g');
+
+      if (feePattern.test(message)) {
+        // Payment verified
+        document.getElementById('errorMsg').classList.add('hidden');
+        window.location.href = "success.html";
+      } else {
+        // Show error
+        document.getElementById('errorMsg').classList.remove('hidden');
+      }
     }
   </script>
 
