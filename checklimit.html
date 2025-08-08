@@ -1,69 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zash Loan Limit</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mwananchi Loan Approval</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-red-700 via-red-500 to-red-400 min-h-screen flex flex-col items-center justify-center text-white p-4">
+<body class="bg-gradient-to-b from-blue-900 to-blue-700 min-h-screen flex flex-col items-center justify-center text-white p-4">
 
-  <div class="bg-white/10 backdrop-blur-md p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
-    <h1 class="text-3xl font-bold mb-6">Your Loan Limit</h1>
+  <!-- Approval Message -->
+  <div class="bg-white text-blue-900 rounded-xl shadow-lg p-6 w-full max-w-md text-center">
+    <div class="text-4xl mb-2">🎉</div>
+    <h1 class="text-2xl font-bold text-orange-500">Congratulations!</h1>
+    <p class="mt-2 text-lg">
+      You've successfully qualified for a personal loan from <span class="font-semibold">Mwananchi Loan</span>.
+    </p>
+    <p class="mt-4 text-xl font-bold text-blue-900">
+      Loan Limit Approved:
+    </p>
+    <p id="loanLimit" class="text-3xl font-extrabold text-orange-500 mt-1">Ksh 0</p>
+    <p class="mt-2 text-sm text-gray-600">
+      Service Fee: <span class="font-semibold">6.2%</span>
+    </p>
+    <p class="mt-4">
+      Your loan request has been evaluated and approved. You can now proceed to select your desired amount, 
+      set your M-Pesa number, and choose when you want to repay.
+    </p>
 
-    <div id="limitDisplay" class="text-5xl font-extrabold mb-6">Ksh 0</div>
-    <div id="progressText" class="text-lg mb-6">Contacting server... 0%</div>
-
-    <div class="w-full bg-white/20 h-3 rounded-full mb-6">
-      <div id="progressBar" class="h-3 bg-yellow-400 rounded-full" style="width: 0%;"></div>
-    </div>
-
-    <button id="continueBtn" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-6 rounded-xl w-full hidden">
+    <!-- Continue Button -->
+    <button onclick="window.location.href='loan-request.html'" 
+      class="mt-6 bg-blue-900 hover:bg-blue-800 text-white font-semibold py-2 px-6 rounded-lg transition">
       Continue
     </button>
   </div>
 
   <script>
-    const limitDisplay = document.getElementById('limitDisplay');
-    const progressText = document.getElementById('progressText');
-    const progressBar = document.getElementById('progressBar');
-    const continueBtn = document.getElementById('continueBtn');
+    // Generate loan limit between 1800 and 7500
+    const minLoan = 1800;
+    const maxLoan = 7500;
+    const loanLimit = Math.floor(Math.random() * (maxLoan - minLoan + 1)) + minLoan;
 
-    let progress = 0;
+    // Display loan limit
+    document.getElementById('loanLimit').textContent = `Ksh ${loanLimit.toLocaleString()}`;
 
-    function generateLoanLimit() {
-      // 80% chance: pick a number between 1800 and 5000
-      // 20% chance: pick a number between 5001 and 7500
-      let loanLimit;
-      if (Math.random() < 0.8) {
-        loanLimit = Math.floor(Math.random() * (5000 - 1800 + 1)) + 1800;
-      } else {
-        loanLimit = Math.floor(Math.random() * (7500 - 5001 + 1)) + 5001;
-      }
-      return loanLimit;
-    }
-
-    const loanLimit = generateLoanLimit();
+    // Store in localStorage for next page
     localStorage.setItem('loanLimit', loanLimit);
-
-    const interval = setInterval(() => {
-      progress += Math.floor(Math.random() * 10) + 5;
-      if (progress > 100) progress = 100;
-
-      progressText.textContent = `Contacting server... ${progress}%`;
-      progressBar.style.width = `${progress}%`;
-
-      if (progress === 100) {
-        clearInterval(interval);
-        limitDisplay.textContent = `Ksh ${loanLimit.toLocaleString()}`;
-        progressText.textContent = "Limit successfully fetched!";
-        continueBtn.classList.remove("hidden");
-      }
-    }, 300);
-
-    continueBtn.addEventListener('click', () => {
-      window.location.href = "loan.html"; // Change to your next page
-    });
   </script>
+
 </body>
 </html>
