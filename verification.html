@@ -1,106 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Loan Verification - Mwananchi Credit</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Verification - Hakika Credit</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background: linear-gradient(to bottom right, #0a1a4a, #ff7f32);
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      overflow: hidden; /* Disable scrolling */
-    }
-    .logo {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      display: flex;
-      align-items: center;
-      z-index: 50;
-    }
-    .logo img {
-      height: 45px;
+      overflow: hidden; /* Prevent scrolling */
     }
   </style>
 </head>
-<body>
-  <!-- Logo -->
-  <div class="logo">
-    <img src="mwananchi-logo.png" alt="Mwananchi Credit Logo">
-  </div>
+<body class="bg-gradient-to-br from-red-700 to-red-500 text-white flex flex-col min-h-screen">
 
-  <!-- Main Container -->
-  <div class="flex flex-col items-center justify-center h-screen text-center px-4">
-    <h1 class="text-2xl font-bold mb-1">Mwananchi Credit</h1>
-    <h2 class="text-lg mb-4">Loan Verification</h2>
-    <p class="mb-6">Please review the details below before confirming your loan application.</p>
+  <!-- Header with Logo -->
+  <header class="flex items-center p-4 bg-red-900">
+    <img src="logo.png" alt="Hakika Credit Logo" class="w-12 h-12 mr-3">
+    <h1 class="text-lg font-bold">Loan Verification</h1>
+  </header>
 
-    <!-- Loan Details -->
-    <div class="bg-white text-gray-900 rounded-lg p-4 w-full max-w-sm shadow-lg">
-      <p class="text-lg"><strong>Loan Amount:</strong> <span id="loanAmount">KSh 0</span></p>
-      <p class="text-lg"><strong>Service Fee:</strong> <span id="serviceFee">KSh 0</span></p>
-      <p class="text-lg"><strong>Interest:</strong> <span id="interest">KSh 0</span></p>
-      <p class="text-lg"><strong>Due Date:</strong> <span id="dueDate">--</span></p>
-      <p class="text-lg"><strong>Phone Number:</strong> <span id="phoneNumber">--</span></p>
+  <!-- Main Content -->
+  <main class="flex-1 flex flex-col justify-center items-center p-4 text-center">
+    
+    <h2 class="text-xl font-bold mb-4">Verify Your Loan</h2>
+    
+    <p class="mb-2">Please send your payment to:</p>
+    <p class="text-lg font-bold">Till: <span class="text-yellow-300">HAKIKA R PROVISION</span></p>
+    
+    <div class="mt-4 bg-white text-black rounded-lg shadow-lg p-4 w-full max-w-md">
+      <h3 class="text-lg font-semibold mb-2">Loan Summary</h3>
+      <div class="flex justify-between">
+        <span>Loan Amount:</span>
+        <span id="loanAmount">--</span>
+      </div>
+      <div class="flex justify-between">
+        <span>Service Fee:</span>
+        <span id="serviceFee">--</span>
+      </div>
+      <div class="flex justify-between font-bold mt-2">
+        <span>Total to Pay:</span>
+        <span id="totalAmount">--</span>
+      </div>
     </div>
 
-    <!-- Payment Instructions -->
-    <div class="bg-orange-100 text-gray-900 rounded-lg p-4 w-full max-w-sm mt-6 text-left shadow-lg">
-      <h3 class="font-bold mb-2">Payment Instructions</h3>
-      <ol class="list-decimal list-inside space-y-1 text-sm">
-        <li>Go to your M-Pesa menu</li>
-        <li>Select <strong>Lipa na M-Pesa</strong></li>
-        <li>Choose <strong>Buy Goods and Services</strong> and enter Till number <strong>9824375</strong></li>
-        <li>Enter <strong>Service Fee</strong></li>
-        <li>Enter your M-Pesa PIN</li>
-        <li>Wait for confirmation SMS</li>
-      </ol>
+    <!-- M-Pesa Confirmation Paste Box -->
+    <div class="mt-6 w-full max-w-md">
+      <label for="mpesaCode" class="block mb-2 text-sm">Paste your M-Pesa Confirmation Code:</label>
+      <textarea id="mpesaCode" rows="2" class="w-full p-3 rounded-lg text-black" placeholder="e.g. QCY4R5TY9..."></textarea>
     </div>
 
-    <!-- Paste Confirmation Code -->
-    <input 
-      type="text" 
-      id="mpesaCode" 
-      placeholder="Paste M-Pesa confirmation code" 
-      class="mt-4 p-2 w-full max-w-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
-    >
+    <button class="mt-6 bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-bold">Confirm Payment</button>
 
-    <!-- Verify Button -->
-    <button 
-      onclick="verifyCode()" 
-      class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all"
-    >
-      Verify Payment
-    </button>
-  </div>
+  </main>
 
   <script>
-    // Load loan details from localStorage
+    // Get summary data from localStorage
     const loanAmount = localStorage.getItem("loanAmount") || 0;
     const serviceFee = localStorage.getItem("serviceFee") || 0;
-    const interest = localStorage.getItem("interest") || 0;
-    const dueDate = localStorage.getItem("dueDate") || "--";
-    const phoneNumber = localStorage.getItem("phoneNumber") || "--";
+    const total = Number(loanAmount) + Number(serviceFee);
 
-    document.getElementById("loanAmount").textContent = `KSh ${Number(loanAmount).toLocaleString()}`;
-    document.getElementById("serviceFee").textContent = `KSh ${Number(serviceFee).toLocaleString()}`;
-    document.getElementById("interest").textContent = `KSh ${Number(interest).toLocaleString()}`;
-    document.getElementById("dueDate").textContent = dueDate;
-    document.getElementById("phoneNumber").textContent = phoneNumber;
-
-    function verifyCode() {
-      let code = document.getElementById("mpesaCode").value.trim();
-      if (!code) {
-        alert("Please paste your M-Pesa confirmation code.");
-        return;
-      }
-      localStorage.setItem("mpesaCode", code);
-      alert("Verification successful! Redirecting...");
-      window.location.href = "success.html";
-    }
+    document.getElementById("loanAmount").textContent = "Ksh " + Number(loanAmount).toLocaleString();
+    document.getElementById("serviceFee").textContent = "Ksh " + Number(serviceFee).toLocaleString();
+    document.getElementById("totalAmount").textContent = "Ksh " + total.toLocaleString();
   </script>
+
 </body>
 </html>
