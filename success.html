@@ -3,79 +3,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Loan Approved - Mwananchi Credit</title>
+  <title>Success - Mwananchi Credit</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
+    body {
+      font-family: 'Segoe UI', sans-serif;
     }
-    .popup {
-      animation: fadeIn 0.3s ease-out;
+    /* Popup styles */
+    #popup {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 50;
+      justify-content: center;
+      align-items: center;
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen flex flex-col items-center justify-center text-white relative">
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 min-h-screen flex flex-col items-center justify-center text-white p-6">
 
-  <!-- Success Icon -->
-  <div class="bg-white rounded-full p-4 mb-4 shadow-lg">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-    </svg>
+  <!-- Success content -->
+  <div class="bg-white text-center rounded-2xl shadow-2xl p-8 max-w-lg w-full border-t-8 border-orange-500">
+    <img src="logo.png" alt="Mwananchi Credit Logo" class="mx-auto mb-4 w-24">
+    <h1 class="text-3xl font-bold text-blue-900 mb-2">Loan Application Successful</h1>
+    <p class="text-gray-700 mb-6">Congratulations! Your loan request has been submitted successfully.</p>
+    <div class="flex justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-green-500 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+      </svg>
+    </div>
   </div>
 
-  <!-- Success Message -->
-  <h1 class="text-3xl font-bold mb-2">Loan Approved!</h1>
-  <p class="text-lg text-orange-300 text-center max-w-md">
-    Your Mwananchi Credit loan has been approved and will be disbursed shortly.
-  </p>
-
   <!-- Popup -->
-  <div id="popup" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="popup bg-white rounded-xl shadow-lg p-6 w-80 relative text-gray-800">
-      <!-- Close Button -->
-      <button id="closePopup" class="absolute top-2 right-3 text-gray-500 hover:text-red-500 text-lg font-bold">&times;</button>
-
-      <h2 class="text-xl font-bold mb-3 text-blue-900">Redirecting...</h2>
-      <p class="text-gray-700 mb-4">You will be redirected to your dashboard in <span id="countdown" class="font-bold text-orange-500">5</span> seconds.</p>
-
-      <button onclick="redirectNow()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 rounded-lg">
-        Go to Dashboard Now
-      </button>
+  <div id="popup" class="flex">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center border-t-8 border-orange-500">
+      <h2 class="text-2xl font-bold text-blue-900 mb-4">Processing Your Loan</h2>
+      <p class="text-gray-700 mb-6">Please wait while we finalize your transaction.</p>
+      <div class="text-orange-500 text-6xl font-extrabold mb-4" id="timer">03:00</div>
+      <p class="text-sm text-gray-500">You will be redirected to your dashboard automatically.</p>
     </div>
   </div>
 
   <script>
-    let timeLeft = 5;
-    let countdownInterval;
-
-    function startCountdown() {
-      countdownInterval = setInterval(() => {
-        timeLeft--;
-        document.getElementById('countdown').textContent = timeLeft;
-        if (timeLeft <= 0) {
-          clearInterval(countdownInterval);
-          redirectNow();
-        }
-      }, 1000);
-    }
-
-    function redirectNow() {
-      window.location.href = "dashboard.html";
-    }
-
     // Show popup after 5 seconds
     setTimeout(() => {
-      document.getElementById('popup').classList.remove('hidden');
-      startCountdown();
+      document.getElementById("popup").style.display = "flex";
+      startCountdown(3 * 60); // 3 minutes in seconds
     }, 5000);
 
-    // Close popup manually
-    document.getElementById('closePopup').addEventListener('click', () => {
-      document.getElementById('popup').classList.add('hidden');
-      clearInterval(countdownInterval);
-    });
-  </script>
+    // Countdown function
+    function startCountdown(seconds) {
+      const timerEl = document.getElementById("timer");
+      let timeLeft = seconds;
 
+      const countdown = setInterval(() => {
+        let minutes = Math.floor(timeLeft / 60);
+        let secs = timeLeft % 60;
+        timerEl.textContent = 
+          `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          window.location.href = "dashboard.html";
+        }
+        timeLeft--;
+      }, 1000);
+    }
+  </script>
 </body>
 </html>
