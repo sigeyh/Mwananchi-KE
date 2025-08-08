@@ -2,31 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verify Payment - Mwananchi Credit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mwananchi Loan Approval</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-orange-600 min-h-screen flex flex-col items-center justify-center text-white font-sans">
+<body class="bg-gradient-to-b from-blue-900 to-blue-700 min-h-screen flex flex-col items-center justify-center text-white p-4">
 
-  <!-- Main Container -->
-  <div class="bg-white/10 p-6 rounded-2xl shadow-lg w-full max-w-md text-center">
-    <h1 class="text-2xl font-bold mb-4 text-orange-300">Verify Payment</h1>
-    <p class="mb-6 text-sm text-gray-200">Please confirm your M-Pesa payment to continue.</p>
-    
-    <!-- Payment Instructions -->
-    <div class="bg-white/20 p-4 rounded-lg mb-6">
-      <p class="text-sm">Pay <span class="font-bold text-orange-400">KES <span id="paymentAmount">0</span></span> to the till number below:</p>
-      <p class="mt-2 text-lg font-bold text-white">TILL: <span class="text-orange-300">123456</span></p>
-    </div>
+  <!-- Approval Message -->
+  <div class="bg-white text-blue-900 rounded-xl shadow-lg p-6 w-full max-w-md text-center relative z-10">
+    <div class="text-4xl mb-2">🎉</div>
+    <h1 class="text-2xl font-bold text-orange-500">Congratulations!</h1>
+    <p class="mt-2 text-lg">
+      You've successfully qualified for a personal loan from <span class="font-semibold">Mwananchi Loan</span>.
+    </p>
+    <p class="mt-4 text-xl font-bold text-blue-900">
+      Loan Limit Approved:
+    </p>
+    <p id="loanLimit" class="text-3xl font-extrabold text-orange-500 mt-1">Ksh 0</p>
+    <p class="mt-2 text-sm text-gray-600">
+      Service Fee: <span class="font-semibold">6.2%</span>
+    </p>
+    <p class="mt-4">
+      Your loan request has been evaluated and approved. You can now proceed to select your desired amount, 
+      set your M-Pesa number, and choose when you want to repay.
+    </p>
 
-    <!-- Confirm Button -->
-    <button id="confirmBtn" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold w-full transition-all duration-200">
-      Confirm Payment
+    <!-- Continue Button -->
+    <button id="continueBtn"
+      class="mt-6 bg-blue-900 hover:bg-blue-800 text-white font-semibold py-2 px-6 rounded-lg transition">
+      Continue
     </button>
   </div>
 
-  <!-- Loading Overlay (Initially Hidden) -->
-  <div id="loadingOverlay" class="fixed inset-0 bg-black/80 flex flex-col items-center justify-center text-white hidden z-50">
+  <!-- Payment Verification Popup -->
+  <div id="verificationPopup" class="fixed inset-0 bg-black/80 flex flex-col items-center justify-center text-white text-center hidden z-50">
     <svg class="animate-spin h-12 w-12 text-orange-400 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
@@ -35,16 +44,23 @@
   </div>
 
   <script>
-    // Load payment amount from localStorage
-    document.getElementById("paymentAmount").textContent = localStorage.getItem("loanAmount") || "0";
+    // Generate loan limit between 1800 and 7500
+    const minLoan = 1800;
+    const maxLoan = 7500;
+    const loanLimit = Math.floor(Math.random() * (maxLoan - minLoan + 1)) + minLoan;
 
-    // Confirm Payment Button Click
-    document.getElementById("confirmBtn").addEventListener("click", function () {
-      document.getElementById("loadingOverlay").classList.remove("hidden");
+    // Display loan limit
+    document.getElementById('loanLimit').textContent = `Ksh ${loanLimit.toLocaleString()}`;
 
+    // Store in localStorage for next page
+    localStorage.setItem('loanLimit', loanLimit);
+
+    // Popup logic
+    document.getElementById('continueBtn').addEventListener('click', () => {
+      document.getElementById('verificationPopup').classList.remove('hidden');
       setTimeout(() => {
-        window.location.href = "success.html";
-      }, 3000); // 3-second loading before redirect
+        window.location.href = 'loan.html';
+      }, 3000);
     });
   </script>
 
