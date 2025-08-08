@@ -1,75 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Success - Mwananchi Credit</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mwananchi Credit Loan Processing</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-    }
-    /* Popup styles */
-    #popup {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background-color: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
-      z-index: 50;
-      justify-content: center;
-      align-items: center;
-    }
-  </style>
 </head>
-<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 min-h-screen flex flex-col items-center justify-center text-white p-6">
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-orange-500 min-h-screen flex items-center justify-center text-white">
 
-  <!-- Success content -->
-  <div class="bg-white text-center rounded-2xl shadow-2xl p-8 max-w-lg w-full border-t-8 border-orange-500">
-    <img src="logo.png" alt="Mwananchi Credit Logo" class="mx-auto mb-4 w-24">
-    <h1 class="text-3xl font-bold text-blue-900 mb-2">Loan Application Successful</h1>
-    <p class="text-gray-700 mb-6">Congratulations! Your loan request has been submitted successfully.</p>
-    <div class="flex justify-center">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-green-500 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-      </svg>
-    </div>
+  <div class="text-center">
+    <img src="mwananchi-logo.png" alt="Mwananchi Credit" class="mx-auto w-32 mb-6">
+    <h1 class="text-3xl font-bold">Processing Your Loan...</h1>
+    <p class="mt-2 text-lg">Please wait while we verify your details.</p>
   </div>
 
   <!-- Popup -->
-  <div id="popup" class="flex">
-    <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center border-t-8 border-orange-500">
-      <h2 class="text-2xl font-bold text-blue-900 mb-4">Processing Your Loan</h2>
-      <p class="text-gray-700 mb-6">Please wait while we finalize your transaction.</p>
-      <div class="text-orange-500 text-6xl font-extrabold mb-4" id="timer">03:00</div>
-      <p class="text-sm text-gray-500">You will be redirected to your dashboard automatically.</p>
-    </div>
+  <div id="popup" class="hidden fixed inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center text-center p-6">
+    <h2 class="text-2xl font-bold text-orange-400 mb-4">Please hold on, your loan is being processed...</h2>
+    <div id="timer" class="text-7xl font-extrabold text-white"></div>
   </div>
 
   <script>
     // Show popup after 5 seconds
     setTimeout(() => {
-      document.getElementById("popup").style.display = "flex";
-      startCountdown(3 * 60); // 3 minutes in seconds
+      document.getElementById('popup').classList.remove('hidden');
+      startCountdown(3 * 60); // 3 minutes
     }, 5000);
 
     // Countdown function
     function startCountdown(seconds) {
-      const timerEl = document.getElementById("timer");
-      let timeLeft = seconds;
+      let timerDisplay = document.getElementById('timer');
+      let remaining = seconds;
 
-      const countdown = setInterval(() => {
-        let minutes = Math.floor(timeLeft / 60);
-        let secs = timeLeft % 60;
-        timerEl.textContent = 
-          `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        
-        if (timeLeft <= 0) {
-          clearInterval(countdown);
-          window.location.href = "dashboard.html";
+      function updateTimer() {
+        let mins = Math.floor(remaining / 60);
+        let secs = remaining % 60;
+        timerDisplay.textContent = 
+          `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+        if (remaining > 0) {
+          remaining--;
+          setTimeout(updateTimer, 1000);
+        } else {
+          timerDisplay.textContent = "Processing Complete!";
         }
-        timeLeft--;
-      }, 1000);
+      }
+      updateTimer();
     }
   </script>
 </body>
