@@ -1,76 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Check Loan Limit - Mwananchi Credit</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mwananchi Credit - Check Loan Limit</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #0d1b4c, #ff7f00);
+    }
+    .loader {
+      border: 4px solid rgba(255,255,255,0.3);
+      border-top: 4px solid #ff7f00;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white flex items-center justify-center min-h-screen p-4">
+<body class="gradient-bg min-h-screen flex items-center justify-center text-white">
 
-  <div class="max-w-md w-full bg-white text-gray-900 rounded-2xl shadow-xl p-6 text-center">
-    <img src="mwananchi-logo.png" alt="Mwananchi Credit" class="mx-auto mb-4 w-28">
-    
-    <h1 id="loading-text" class="text-xl font-bold text-blue-900">Contacting server... <span id="percent">0%</span></h1>
-    <div class="w-full bg-gray-200 rounded-full h-3 mt-4">
-      <div id="progress-bar" class="bg-orange-500 h-3 rounded-full" style="width: 0%"></div>
+  <div id="loadingScreen" class="text-center">
+    <img src="mwananchi-logo.png" alt="Mwananchi Credit" class="mx-auto mb-6 w-24 h-24 rounded-full border-4 border-white shadow-lg">
+    <h1 class="text-2xl font-bold mb-4">Contacting Server</h1>
+    <div class="loader mb-4"></div>
+    <p id="progressText" class="text-lg">0%</p>
+  </div>
+
+  <div id="resultScreen" class="hidden text-center max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg text-gray-800">
+    <h2 class="text-2xl font-bold text-blue-900 mb-4">🎉 Congratulations!</h2>
+    <p class="mb-4 text-lg">Your loan limit has been successfully determined.</p>
+    <div class="bg-blue-100 p-4 rounded-lg mb-4">
+      <p class="text-gray-700">Your Loan Limit:</p>
+      <p id="loanLimit" class="text-3xl font-bold text-orange-500"></p>
     </div>
-
-    <!-- Hidden until loading completes -->
-<div class="text-center text-white px-4">
-    <h1 class="text-3xl font-bold mb-4">🎉 Congratulations!</h1>
-    <p class="text-lg mb-6">
-        You've successfully qualified for a personal loan from <span class="font-semibold text-orange-400">Mwananchi Credit</span>.
-    </p>
-    <p class="text-lg mb-6">
-        <strong>Loan Limit Approved:</strong> KSh <span id="loanLimit"></span>
-    </p>
-    <p class="text-md">
-        Your loan request has been evaluated and approved. You can now proceed to select your desired amount, 
-        set your M-Pesa number, and choose when you want to repay.
-    </p>
-</div>
-
+    <button onclick="proceedLoan()" class="w-full bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition">Proceed</button>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      let percent = 0;
-      let loadingText = document.getElementById("loading-text");
-      let percentEl = document.getElementById("percent");
-      let progressBar = document.getElementById("progress-bar");
-      let result = document.getElementById("result");
-      let loanLimitEl = document.getElementById("loan-limit");
+    let progress = 0;
+    let interval = setInterval(() => {
+      progress += Math.floor(Math.random() * 15) + 5;
+      if (progress > 100) progress = 100;
+      document.getElementById('progressText').innerText = progress + "%";
+      
+      if (progress >= 100) {
+        clearInterval(interval);
+        setTimeout(showResult, 500);
+      }
+    }, 500);
 
-      // Random loan limit for example (between 3,000 and 15,000)
-      let loanLimit = Math.floor(Math.random() * (15000 - 3000 + 1)) + 3000;
+    function showResult() {
+      // Random loan limit between 3,000 and 15,000
+      let loanLimitValue = Math.floor(Math.random() * (15000 - 3000 + 1)) + 3000;
+      localStorage.setItem("loanLimit", loanLimitValue);
 
-      let loader = setInterval(() => {
-        percent += Math.floor(Math.random() * 15) + 5;
-        if (percent > 100) percent = 100;
+      document.getElementById('loanLimit').innerText = "KSh " + loanLimitValue.toLocaleString();
 
-        percentEl.textContent = percent + "%";
-        progressBar.style.width = percent + "%";
+      document.getElementById('loadingScreen').classList.add('hidden');
+      document.getElementById('resultScreen').classList.remove('hidden');
+    }
 
-        if (percent >= 100) {
-          clearInterval(loader);
-          // Store loan limit
-          localStorage.setItem("loanLimit", loanLimit);
-
-          // Show result
-          loadingText.classList.add("hidden");
-          result.classList.remove("hidden");
-          loanLimitEl.textContent = "KSh " + loanLimit.toLocaleString();
-        }
-      }, 400);
-    });
+    function proceedLoan() {
+      window.location.href = "loan.html";
+    }
   </script>
 
 </body>
