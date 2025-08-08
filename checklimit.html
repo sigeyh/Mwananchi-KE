@@ -2,33 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mwananchi Loan Approval</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Verification - Zash Loan</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-b from-blue-900 to-blue-700 min-h-screen flex flex-col items-center justify-center text-white p-4">
+<body class="bg-gradient-to-br from-red-700 via-red-600 to-red-500 min-h-screen flex items-center justify-center text-white p-4">
 
-  <!-- Approval Message -->
-  <div class="bg-white text-blue-900 rounded-xl shadow-lg p-6 w-full max-w-md text-center">
-    <div class="text-4xl mb-2">🎉</div>
-    <h1 class="text-2xl font-bold text-orange-500">Congratulations!</h1>
-    <p class="mt-2 text-lg">
-      You've successfully qualified for a personal loan from <span class="font-semibold">Mwananchi Loan</span>.
-    </p>
-    <p class="mt-4 text-xl font-bold text-blue-900">
-      Loan Limit Approved:
-    </p>
-    <p id="loanLimit" class="text-3xl font-extrabold text-orange-500 mt-1">Ksh 0</p>
-    <p class="mt-4">
-      Your loan request has been evaluated and approved. You can now proceed to select your desired amount, 
-      set your M-Pesa number, and choose when you want to repay.
-    </p>
+  <div class="bg-white/10 backdrop-blur-md p-8 rounded-2xl w-full max-w-md text-center shadow-lg">
+    <h1 class="text-2xl font-bold mb-4">Verifying Your Loan...</h1>
+    <p class="mb-6">Please wait while we process your loan request.</p>
+
+    <!-- Loader -->
+    <div id="loader" class="w-24 h-24 border-8 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-6"></div>
+    <p id="percentage" class="text-lg font-semibold">0%</p>
+
+    <!-- Congratulations Message -->
+    <div id="congratsMessage" class="hidden">
+      <h2 class="text-xl font-bold text-green-300 mb-2">🎉 Congratulations!</h2>
+      <p id="loanAmountText" class="mb-4"></p>
+      <button onclick="window.location.href='dashboard.html'" 
+        class="bg-green-500 hover:bg-green-600 px-5 py-2 rounded-lg font-semibold transition">
+        Continue
+      </button>
+    </div>
   </div>
 
   <script>
-    // Retrieve loan limit from localStorage
-    const loanLimit = localStorage.getItem('loanLimit') || '0';
-    document.getElementById('loanLimit').textContent = `Ksh ${loanLimit}`;
+    let percent = 0;
+    const percentageElement = document.getElementById("percentage");
+    const loader = document.getElementById("loader");
+    const congratsMessage = document.getElementById("congratsMessage");
+    const loanAmountText = document.getElementById("loanAmountText");
+
+    const minLoan = 1800;
+    const maxLoan = 7500;
+    const loanAmount = Math.floor(Math.random() * (maxLoan - minLoan + 1)) + minLoan;
+
+    const interval = setInterval(() => {
+      percent++;
+      percentageElement.textContent = percent + "%";
+
+      if (percent >= 100) {
+        clearInterval(interval);
+        loader.classList.add("hidden");
+        percentageElement.classList.add("hidden");
+        congratsMessage.classList.remove("hidden");
+
+        loanAmountText.textContent = `You have been approved for Ksh ${loanAmount.toLocaleString()}`;
+        localStorage.setItem("approvedLoan", loanAmount);
+      }
+    }, 50);
   </script>
 
 </body>
