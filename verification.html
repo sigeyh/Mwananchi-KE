@@ -23,17 +23,20 @@
       <p class="text-lg">Due Date: <span id="dueDate" class="font-bold"></span></p>
     </div>
 
-    <!-- Payment Details -->
-    <div class="bg-white/10 p-6 rounded-lg shadow-lg space-y-4">
-      <h2 class="text-2xl font-semibold">Payment Details</h2>
-      <p>Send payment to the following account:</p>
-      <p class="font-bold">M-Pesa Paybill: 123456</p>
-      <p class="font-bold">Account: ZashLoan</p>
-      <p class="text-sm text-gray-200">Ensure you use the phone number you registered with.</p>
+<!-- Payment Details Section -->
+<div class="bg-gray-800 p-4 rounded-xl mb-6 text-white">
+  <h2 class="text-lg font-semibold mb-2">Payment Details</h2>
+  <p class="text-sm">Pay to <span class="font-bold">Hakika R Provision</span></p>
+  <p class="text-sm">Till Number: <span class="font-bold">9824375</span></p>
+  <p class="text-sm">Amount: <span class="font-bold">services</span></p>
+</div>
 
-      <label class="block mt-4 text-lg font-medium">Paste Transaction Code:</label>
-      <input type="text" placeholder="Enter M-Pesa Transaction Code" class="w-full p-3 rounded-lg text-black" />
-    </div>
+<!-- Existing Paste Text Box -->
+<div class="bg-gray-800 p-4 rounded-xl">
+  <label for="transactionCode" class="block text-sm font-medium mb-2">Paste M-Pesa Transaction Code:</label>
+  <input type="text" id="transactionCode" class="w-full p-3 bg-transparent border border-gray-600 rounded-lg focus:outline-none focus:border-red-500">
+</div>
+
 
   </div>
 
