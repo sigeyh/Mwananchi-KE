@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mwananchi Credit - Loan Limit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen flex flex-col items-center justify-center text-white p-4">
+
+  <div class="w-full max-w-lg bg-white text-gray-900 rounded-2xl shadow-lg p-6 text-center">
+    <img src="mwananchi-logo.png" alt="Mwananchi Credit Logo" class="mx-auto mb-4 w-28">
+    <h1 class="text-2xl font-bold text-blue-900">Checking Your Loan Limit</h1>
+    <p class="mt-2 text-gray-600">Please wait while we contact our servers...</p>
+
+    <!-- Loader -->
+    <div class="w-full bg-gray-200 rounded-full h-4 mt-6">
+      <div id="progressBar" class="bg-orange-500 h-4 rounded-full text-xs text-center text-white" style="width: 0%">0%</div>
+    </div>
+
+    <!-- Loan Limit Result -->
+    <div id="resultSection" class="hidden mt-6">
+      <h2 class="text-xl font-bold text-blue-900">Your Loan Limit</h2>
+      <p id="loanLimit" class="text-3xl font-extrabold text-orange-500 mt-2">KSh 0</p>
+      <p class="mt-1 text-gray-600">Service Fee: <span id="serviceFee" class="font-semibold">0</span>%</p>
+      <button onclick="goToLoanPage()" class="mt-5 bg-blue-900 text-white px-5 py-2 rounded-lg hover:bg-blue-800 transition">
+        Continue
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Preloaded Counties
+    const counties = [
+      "Mombasa","Kwale","Kilifi","Tana River","Lamu","Taita-Taveta","Garissa","Wajir","Mandera","Marsabit","Isiolo",
+      "Meru","Tharaka-Nithi","Embu","Kitui","Machakos","Makueni","Nyandarua","Nyeri","Kirinyaga","Murang'a","Kiambu",
+      "Turkana","West Pokot","Samburu","Trans Nzoia","Uasin Gishu","Elgeyo-Marakwet","Nandi","Baringo","Laikipia",
+      "Nakuru","Narok","Kajiado","Kericho","Bomet","Kakamega","Vihiga","Bungoma","Busia","Siaya","Kisumu","Homa Bay",
+      "Migori","Kisii","Nyamira","Nairobi"
+    ];
+
+    // Preloaded Constituencies (shortened here for space; you can paste all 290)
+    const constituencies = [
+      "Changamwe","Jomvu","Kisauni","Nyali","Likoni","Mvita", /* ... rest of 290 constituencies ... */ "Westlands"
+    ];
+
+    // Simulate server contacting
+    let progress = 0;
+    const progressBar = document.getElementById('progressBar');
+    const resultSection = document.getElementById('resultSection');
+    const loanLimitEl = document.getElementById('loanLimit');
+    const serviceFeeEl = document.getElementById('serviceFee');
+
+    // Random Loan Limit between 5,000 and 50,000
+    const loanLimit = Math.floor(Math.random() * (50000 - 5000 + 1)) + 5000;
+    const serviceFee = 6.2; // %
+
+    const interval = setInterval(() => {
+      progress += Math.floor(Math.random() * 10) + 5;
+      if (progress > 100) progress = 100;
+      progressBar.style.width = progress + '%';
+      progressBar.textContent = progress + '%';
+
+      if (progress === 100) {
+        clearInterval(interval);
+        loanLimitEl.textContent = 'KSh ' + loanLimit.toLocaleString();
+        serviceFeeEl.textContent = serviceFee;
+        resultSection.classList.remove('hidden');
+
+        // Store in localStorage for later pages
+        localStorage.setItem('loanLimit', loanLimit);
+        localStorage.setItem('serviceFee', serviceFee);
+        localStorage.setItem('counties', JSON.stringify(counties));
+        localStorage.setItem('constituencies', JSON.stringify(constituencies));
+      }
+    }, 400);
+
+    function goToLoanPage() {
+      window.location.href = 'loan.html';
+    }
+  </script>
+
+</body>
+</html>
