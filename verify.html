@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Your Loan - Mwananchi Credit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen flex flex-col items-center justify-center text-white p-6">
+
+  <!-- Logo -->
+  <div class="absolute top-6 left-6 flex items-center gap-2">
+    <img src="logo.png" alt="Mwananchi Credit Logo" class="h-10 w-10 rounded-full bg-white p-1">
+    <h1 class="text-xl font-bold">Mwananchi Credit</h1>
+  </div>
+
+  <!-- Content Box -->
+  <div class="bg-white text-blue-900 rounded-2xl shadow-lg w-full max-w-md p-6 space-y-6 mt-20">
+
+    <h2 class="text-2xl font-bold text-center">Verify Your Loan</h2>
+
+    <!-- Loan Details -->
+    <div class="space-y-2 text-lg">
+      <p><span class="font-semibold">Loan Amount:</span> Ksh <span id="loanAmount">0</span></p>
+      <p><span class="font-semibold">Service Fee:</span> Ksh <span id="serviceFee">0</span></p>
+      <p><span class="font-semibold">Total Repayment:</span> Ksh <span id="totalRepayment">0</span></p>
+      <p><span class="font-semibold">Due Date:</span> <span id="dueDate">N/A</span></p>
+      <p><span class="font-semibold">M-Pesa Number:</span> <span id="mpesaNumber">N/A</span></p>
+    </div>
+
+    <!-- Instructions -->
+    <div class="bg-blue-100 text-blue-900 p-4 rounded-lg text-sm">
+      <p class="font-semibold">Payment Instructions:</p>
+      <p>1. Go to M-Pesa menu → Lipa na M-Pesa</p>
+      <p>2. Select Paybill</p>
+      <p>3. Enter Business No: <span class="font-bold">123456</span></p>
+      <p>4. Enter Account No: <span class="font-bold">Your ID Number</span></p>
+      <p>5. Enter the amount and your PIN, then send.</p>
+    </div>
+
+    <!-- Confirm Button -->
+    <button onclick="confirmPayment()" class="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold transition">
+      Confirm Payment
+    </button>
+  </div>
+
+  <script>
+    // Load data from localStorage
+    document.getElementById("loanAmount").innerText = localStorage.getItem("loanAmount") || "0";
+    document.getElementById("serviceFee").innerText = localStorage.getItem("serviceFee") || "0";
+    document.getElementById("totalRepayment").innerText = localStorage.getItem("totalRepayment") || "0";
+    document.getElementById("dueDate").innerText = localStorage.getItem("dueDate") || "N/A";
+    document.getElementById("mpesaNumber").innerText = localStorage.getItem("mpesaNumber") || "N/A";
+
+    function confirmPayment() {
+      // Redirect to success page
+      window.location.href = "success.html";
+    }
+  </script>
+
+</body>
+</html>
