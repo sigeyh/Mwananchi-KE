@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mwananchi Credit - Loan Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #0b1d51, #003366);
+    }
+    .orange-btn {
+      background-color: #ff7f27;
+    }
+  </style>
+</head>
+<body class="gradient-bg min-h-screen text-white p-4">
+
+  <!-- Header -->
+  <header class="flex items-center p-4 border-b border-orange-400">
+    <img src="mwananchi-logo.png" alt="Mwananchi Credit Logo" class="h-10 mr-3">
+    <h1 class="text-xl font-bold">Mwananchi Credit</h1>
+  </header>
+
+  <!-- Loan Summary -->
+  <main class="max-w-lg mx-auto mt-6 bg-white text-blue-900 rounded-xl shadow-lg p-6">
+    <h2 class="text-2xl font-bold text-center mb-4">Loan Summary</h2>
+
+    <p class="mb-2"><span class="font-semibold">Loan Limit:</span> Ksh 9,743</p>
+    <p class="mb-2"><span class="font-semibold">Request Date:</span> 2025-08-08</p>
+    <p class="mb-4"><span class="font-semibold">Due Date:</span> 2025-08-15</p>
+
+    <!-- Loan Amount -->
+    <div class="mb-4">
+      <label class="block font-semibold mb-1">Loan Amount</label>
+      <p class="bg-gray-100 rounded-md px-3 py-2">Selected Amount: <span class="font-bold">Ksh 6,500</span></p>
+    </div>
+
+    <!-- Service Fee -->
+    <div class="mb-4">
+      <p><span class="font-semibold">Service Fee (6.2%):</span> Ksh 403</p>
+    </div>
+
+    <!-- M-Pesa Number -->
+    <div class="mb-4">
+      <label for="mpesaNumber" class="block font-semibold mb-1">M-Pesa Phone Number</label>
+      <input type="tel" id="mpesaNumber" placeholder="e.g. 0712345678" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
+    </div>
+
+    <!-- Promo Code -->
+    <div class="mb-6">
+      <label for="promoCode" class="block font-semibold mb-1">Promo Code (Optional)</label>
+      <input type="text" id="promoCode" placeholder="Enter code" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
+    </div>
+
+    <!-- Continue Button -->
+    <button class="orange-btn w-full py-3 text-lg font-bold rounded-lg shadow-lg text-white">Continue</button>
+  </main>
+
+</body>
+</html>
