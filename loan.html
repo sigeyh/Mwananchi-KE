@@ -3,74 +3,137 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mwananchi Credit - Loan Request</title>
+  <title>Mwananchi Credit - Loan Application</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
     }
     .gradient-bg {
-      background: linear-gradient(135deg, #002147, #ff7f00);
+      background: linear-gradient(135deg, #002147, #f58220);
+    }
+    .no-spin::-webkit-inner-spin-button,
+    .no-spin::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
   </style>
 </head>
-<body class="gradient-bg min-h-screen text-white flex flex-col">
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4">
 
-  <!-- Header -->
-  <header class="p-4 flex items-center shadow-lg bg-[#002147]/90">
-    <img src="logo.png" alt="Mwananchi Credit Logo" class="h-10 w-auto mr-3">
-    <h1 class="text-lg font-bold">Mwananchi Credit Loan Request</h1>
-  </header>
-
-  <!-- Main Content -->
-  <main class="flex-1 p-6">
-    <div class="bg-white text-gray-900 rounded-lg p-6 max-w-lg mx-auto shadow-xl">
-      <h2 class="text-xl font-bold text-[#002147] mb-4">Confirm Your Loan Request</h2>
-      
-      <div class="space-y-3">
-        <p><strong>Loan Amount:</strong> <span id="loanAmount">Loading...</span></p>
-        <p><strong>Interest:</strong> <span id="interest">Loading...</span></p>
-        <p><strong>Service Fee:</strong> <span id="serviceFee">Loading...</span></p>
-        <p><strong>Total to Repay:</strong> <span id="totalRepay">Loading...</span></p>
-        <p><strong>Due Date:</strong> <span id="dueDate">Loading...</span></p>
-        <p><strong>M-Pesa Number:</strong> <span id="mpesaNumber">Loading...</span></p>
-      </div>
-
-      <button id="confirmBtn" class="mt-6 w-full bg-[#ff7f00] hover:bg-orange-600 text-white font-bold py-3 rounded-lg">
-        Confirm Loan Request
-      </button>
+  <div class="bg-white rounded-2xl shadow-lg max-w-lg w-full p-6">
+    <!-- Header -->
+    <div class="flex items-center gap-3 mb-4">
+      <img src="mwananchi-logo.png" alt="Mwananchi Credit" class="h-12">
+      <h1 class="text-xl font-bold text-[#002147]">Loan Application</h1>
     </div>
-  </main>
 
-  <!-- Footer -->
-  <footer class="p-4 text-center text-sm bg-[#002147]/90">
-    &copy; 2025 Mwananchi Credit. All rights reserved.
-  </footer>
+    <!-- Loan Slider Section -->
+    <div>
+      <label class="block font-medium text-gray-700 mb-1">Loan Amount (KES)</label>
+      <input type="range" id="loanAmountSlider" min="0" max="0" value="0" class="w-full">
+      <div class="text-lg font-semibold text-[#002147] mt-2">KES <span id="loanAmount">0</span></div>
+    </div>
+
+    <!-- Loan Details -->
+    <div class="mt-4 space-y-2 text-gray-700">
+      <div class="flex justify-between">
+        <span>Service Fee (<span id="serviceFeePercent">0</span>%)</span>
+        <span>KES <span id="serviceFee">0</span></span>
+      </div>
+      <div class="flex justify-between">
+        <span>Interest (<span id="interestPercent">0</span>%)</span>
+        <span>KES <span id="interest">0</span></span>
+      </div>
+      <div class="flex justify-between font-bold text-[#f58220]">
+        <span>Total Payable</span>
+        <span>KES <span id="totalPayable">0</span></span>
+      </div>
+    </div>
+
+    <!-- Promo Code -->
+    <div class="mt-4">
+      <label class="block font-medium text-gray-700">Promo Code</label>
+      <input type="text" id="promoCode" placeholder="Enter code if any" class="w-full p-2 border rounded-lg">
+    </div>
+
+    <!-- Phone Number -->
+    <div class="mt-4">
+      <label class="block font-medium text-gray-700">M-Pesa Phone Number</label>
+      <input type="number" id="phoneNumber" placeholder="07XXXXXXXX" class="w-full p-2 border rounded-lg no-spin">
+    </div>
+
+    <!-- Due Date -->
+    <div class="mt-4">
+      <label class="block font-medium text-gray-700">Due Date</label>
+      <input type="date" id="dueDate" class="w-full p-2 border rounded-lg">
+    </div>
+
+    <!-- Continue Button -->
+    <button onclick="saveLoanDetails()" class="mt-6 w-full bg-[#f58220] hover:bg-[#d66d1a] text-white py-2 rounded-lg font-semibold">
+      Continue
+    </button>
+  </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      // Retrieve from localStorage
-      const loanAmount = localStorage.getItem("loanAmount") || "0";
-      const interest = localStorage.getItem("interest") || "0";
-      const serviceFee = localStorage.getItem("serviceFee") || "0";
-      const totalRepay = localStorage.getItem("totalRepay") || "0";
-      const dueDate = localStorage.getItem("dueDate") || "Not Set";
-      const mpesaNumber = localStorage.getItem("mpesaNumber") || "Not Set";
+    // Load data from checklimit.html via localStorage
+    document.addEventListener("DOMContentLoaded", () => {
+      const limit = localStorage.getItem("loanLimit") || 0;
+      const serviceFeePercent = localStorage.getItem("serviceFeePercent") || 6.2;
+      const interestPercent = localStorage.getItem("interestPercent") || 5;
 
-      // Display in HTML
-      document.getElementById("loanAmount").textContent = "KSh " + loanAmount;
-      document.getElementById("interest").textContent = "KSh " + interest;
-      document.getElementById("serviceFee").textContent = "KSh " + serviceFee;
-      document.getElementById("totalRepay").textContent = "KSh " + totalRepay;
-      document.getElementById("dueDate").textContent = dueDate;
-      document.getElementById("mpesaNumber").textContent = mpesaNumber;
+      document.getElementById("loanAmountSlider").max = limit;
+      document.getElementById("loanAmountSlider").value = limit;
+      document.getElementById("loanAmount").textContent = limit;
+      document.getElementById("serviceFeePercent").textContent = serviceFeePercent;
+      document.getElementById("interestPercent").textContent = interestPercent;
 
-      // Confirm button action
-      document.getElementById("confirmBtn").addEventListener("click", function () {
-        alert("Loan request submitted successfully!");
-        window.location.href = "verification.html"; // next step page
+      calculateFees(limit, serviceFeePercent, interestPercent);
+
+      document.getElementById("loanAmountSlider").addEventListener("input", function () {
+        document.getElementById("loanAmount").textContent = this.value;
+        calculateFees(this.value, serviceFeePercent, interestPercent);
       });
     });
+
+    function calculateFees(amount, serviceFeePercent, interestPercent) {
+      const serviceFee = (amount * serviceFeePercent / 100).toFixed(2);
+      const interest = (amount * interestPercent / 100).toFixed(2);
+      const total = (parseFloat(amount) + parseFloat(serviceFee) + parseFloat(interest)).toFixed(2);
+
+      document.getElementById("serviceFee").textContent = serviceFee;
+      document.getElementById("interest").textContent = interest;
+      document.getElementById("totalPayable").textContent = total;
+    }
+
+    function saveLoanDetails() {
+      const loanAmount = document.getElementById("loanAmount").textContent;
+      const serviceFee = document.getElementById("serviceFee").textContent;
+      const interest = document.getElementById("interest").textContent;
+      const totalPayable = document.getElementById("totalPayable").textContent;
+      const promoCode = document.getElementById("promoCode").value;
+      const phoneNumber = document.getElementById("phoneNumber").value;
+      const dueDate = document.getElementById("dueDate").value;
+
+      if (!phoneNumber || phoneNumber.length < 10) {
+        alert("Please enter a valid phone number");
+        return;
+      }
+      if (!dueDate) {
+        alert("Please select a due date");
+        return;
+      }
+
+      localStorage.setItem("loanAmount", loanAmount);
+      localStorage.setItem("serviceFee", serviceFee);
+      localStorage.setItem("interest", interest);
+      localStorage.setItem("totalPayable", totalPayable);
+      localStorage.setItem("promoCode", promoCode);
+      localStorage.setItem("phoneNumber", phoneNumber);
+      localStorage.setItem("dueDate", dueDate);
+
+      window.location.href = "verification.html";
+    }
   </script>
 
 </body>
