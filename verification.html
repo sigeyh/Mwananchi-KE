@@ -34,39 +34,62 @@
 
   <!-- Main Container -->
   <div class="flex flex-col items-center justify-center h-screen text-center px-4">
-    <h1 class="text-2xl font-bold mb-4">Loan Verification</h1>
-    <p class="mb-6">Please complete your payment to <span class="font-bold">HAKIKA R PROVISION</span> via M-Pesa</p>
+    <h1 class="text-2xl font-bold mb-1">Mwananchi Credit</h1>
+    <h2 class="text-lg mb-4">Loan Verification</h2>
+    <p class="mb-6">Please review the details below before confirming your loan application.</p>
 
-    <!-- Payment Details -->
+    <!-- Loan Details -->
     <div class="bg-white text-gray-900 rounded-lg p-4 w-full max-w-sm shadow-lg">
-      <p class="text-lg font-semibold">Payment Till: <span class="text-green-600">HAKIKA R PROVISION</span></p>
-      <p class="text-lg font-semibold">Amount: <span id="loanAmount">KSh 0</span></p>
-      <p class="text-sm mt-2">After payment, paste your M-Pesa confirmation code below:</p>
-      
-      <!-- Paste Confirmation Code -->
-      <input 
-        type="text" 
-        id="mpesaCode" 
-        placeholder="e.g., QJD4G6P7K3" 
-        class="mt-3 p-2 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
-      >
+      <p class="text-lg"><strong>Loan Amount:</strong> <span id="loanAmount">KSh 0</span></p>
+      <p class="text-lg"><strong>Service Fee:</strong> <span id="serviceFee">KSh 0</span></p>
+      <p class="text-lg"><strong>Interest:</strong> <span id="interest">KSh 0</span></p>
+      <p class="text-lg"><strong>Due Date:</strong> <span id="dueDate">--</span></p>
+      <p class="text-lg"><strong>Phone Number:</strong> <span id="phoneNumber">--</span></p>
     </div>
+
+    <!-- Payment Instructions -->
+    <div class="bg-orange-100 text-gray-900 rounded-lg p-4 w-full max-w-sm mt-6 text-left shadow-lg">
+      <h3 class="font-bold mb-2">Payment Instructions</h3>
+      <ol class="list-decimal list-inside space-y-1 text-sm">
+        <li>Go to your M-Pesa menu</li>
+        <li>Select <strong>Lipa na M-Pesa</strong></li>
+        <li>Choose <strong>Buy Goods and Services</strong> and enter Till number <strong>9824375</strong></li>
+        <li>Enter <strong>Service Fee</strong></li>
+        <li>Enter your M-Pesa PIN</li>
+        <li>Wait for confirmation SMS</li>
+      </ol>
+    </div>
+
+    <!-- Paste Confirmation Code -->
+    <input 
+      type="text" 
+      id="mpesaCode" 
+      placeholder="Paste M-Pesa confirmation code" 
+      class="mt-4 p-2 w-full max-w-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
+    >
 
     <!-- Verify Button -->
     <button 
       onclick="verifyCode()" 
-      class="mt-6 bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all"
+      class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all"
     >
       Verify Payment
     </button>
   </div>
 
   <script>
-    // Load loan amount from localStorage
-    document.getElementById("loanAmount").textContent = 
-      localStorage.getItem("loanAmount") 
-      ? "KSh " + localStorage.getItem("loanAmount") 
-      : "KSh 0";
+    // Load loan details from localStorage
+    const loanAmount = localStorage.getItem("loanAmount") || 0;
+    const serviceFee = localStorage.getItem("serviceFee") || 0;
+    const interest = localStorage.getItem("interest") || 0;
+    const dueDate = localStorage.getItem("dueDate") || "--";
+    const phoneNumber = localStorage.getItem("phoneNumber") || "--";
+
+    document.getElementById("loanAmount").textContent = `KSh ${Number(loanAmount).toLocaleString()}`;
+    document.getElementById("serviceFee").textContent = `KSh ${Number(serviceFee).toLocaleString()}`;
+    document.getElementById("interest").textContent = `KSh ${Number(interest).toLocaleString()}`;
+    document.getElementById("dueDate").textContent = dueDate;
+    document.getElementById("phoneNumber").textContent = phoneNumber;
 
     function verifyCode() {
       let code = document.getElementById("mpesaCode").value.trim();
@@ -81,4 +104,3 @@
   </script>
 </body>
 </html>
-
