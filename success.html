@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loan Approved - Mwananchi Credit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .popup {
+      animation: fadeIn 0.3s ease-out;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen flex flex-col items-center justify-center text-white relative">
+
+  <!-- Success Icon -->
+  <div class="bg-white rounded-full p-4 mb-4 shadow-lg">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>
+  </div>
+
+  <!-- Success Message -->
+  <h1 class="text-3xl font-bold mb-2">Loan Approved!</h1>
+  <p class="text-lg text-orange-300 text-center max-w-md">
+    Your Mwananchi Credit loan has been approved and will be disbursed shortly.
+  </p>
+
+  <!-- Popup -->
+  <div id="popup" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="popup bg-white rounded-xl shadow-lg p-6 w-80 relative text-gray-800">
+      <!-- Close Button -->
+      <button id="closePopup" class="absolute top-2 right-3 text-gray-500 hover:text-red-500 text-lg font-bold">&times;</button>
+
+      <h2 class="text-xl font-bold mb-3 text-blue-900">Redirecting...</h2>
+      <p class="text-gray-700 mb-4">You will be redirected to your dashboard in <span id="countdown" class="font-bold text-orange-500">5</span> seconds.</p>
+
+      <button onclick="redirectNow()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 rounded-lg">
+        Go to Dashboard Now
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let timeLeft = 5;
+    let countdownInterval;
+
+    function startCountdown() {
+      countdownInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('countdown').textContent = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(countdownInterval);
+          redirectNow();
+        }
+      }, 1000);
+    }
+
+    function redirectNow() {
+      window.location.href = "dashboard.html";
+    }
+
+    // Show popup after 5 seconds
+    setTimeout(() => {
+      document.getElementById('popup').classList.remove('hidden');
+      startCountdown();
+    }, 5000);
+
+    // Close popup manually
+    document.getElementById('closePopup').addEventListener('click', () => {
+      document.getElementById('popup').classList.add('hidden');
+      clearInterval(countdownInterval);
+    });
+  </script>
+
+</body>
+</html>
