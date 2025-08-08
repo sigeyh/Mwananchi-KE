@@ -3,50 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mwananchi Credit Loan Processing</title>
+  <title>Processing...</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes pulseText {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-orange-500 min-h-screen flex items-center justify-center text-white">
+<body class="bg-gray-900 min-h-screen flex items-center justify-center">
 
-  <div class="text-center">
-    <img src="mwananchi-logo.png" alt="Mwananchi Credit" class="mx-auto w-32 mb-6">
-    <h1 class="text-3xl font-bold">Processing Your Loan...</h1>
-    <p class="mt-2 text-lg">Please wait while we verify your details.</p>
-  </div>
-
-  <!-- Popup -->
-  <div id="popup" class="hidden fixed inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center text-center p-6">
-    <h2 class="text-2xl font-bold text-orange-400 mb-4">Please hold on, your loan is being processed...</h2>
-    <div id="timer" class="text-7xl font-extrabold text-white"></div>
+  <!-- Popup Overlay -->
+  <div class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+    <div class="bg-white rounded-2xl shadow-xl p-8 w-96 text-center">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4 animate-pulse">Please Wait...</h2>
+      <p class="text-gray-600 mb-6 animate-[pulseText_2s_infinite]">
+        We are processing your request.<br>
+        This will only take a moment.
+      </p>
+      <div id="timer" class="text-6xl font-extrabold text-red-600">03:00</div>
+    </div>
   </div>
 
   <script>
-    // Show popup after 5 seconds
-    setTimeout(() => {
-      document.getElementById('popup').classList.remove('hidden');
-      startCountdown(3 * 60); // 3 minutes
-    }, 5000);
+    let timeLeft = 3 * 60; // 3 minutes in seconds
+    const timerEl = document.getElementById("timer");
 
-    // Countdown function
-    function startCountdown(seconds) {
-      let timerDisplay = document.getElementById('timer');
-      let remaining = seconds;
-
-      function updateTimer() {
-        let mins = Math.floor(remaining / 60);
-        let secs = remaining % 60;
-        timerDisplay.textContent = 
-          `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-
-        if (remaining > 0) {
-          remaining--;
-          setTimeout(updateTimer, 1000);
-        } else {
-          timerDisplay.textContent = "Processing Complete!";
-        }
+    function updateTimer() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      if (timeLeft > 0) {
+        timeLeft--;
+        setTimeout(updateTimer, 1000);
       }
-      updateTimer();
     }
+
+    updateTimer();
   </script>
 </body>
 </html>
