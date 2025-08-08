@@ -13,55 +13,59 @@
 </head>
 <body class="bg-gradient-to-br from-red-700 to-red-500 text-white flex flex-col min-h-screen">
 
-  <!-- Header with Logo -->
+  <!-- Header -->
   <header class="flex items-center p-4 bg-red-900">
     <img src="logo.png" alt="Hakika Credit Logo" class="w-12 h-12 mr-3">
-    <h1 class="text-lg font-bold">Loan Verification</h1>
+    <h1 class="text-lg font-bold">Mwananchi Credit - Loan Verification</h1>
   </header>
 
   <!-- Main Content -->
-  <main class="flex-1 flex flex-col justify-center items-center p-4 text-center">
-    
-    <h2 class="text-xl font-bold mb-4">Verify Your Loan</h2>
-    
-    <p class="mb-2">Please send your payment to:</p>
-    <p class="text-lg font-bold">Till: <span class="text-yellow-300">HAKIKA R PROVISION</span></p>
-    
-    <div class="mt-4 bg-white text-black rounded-lg shadow-lg p-4 w-full max-w-md">
-      <h3 class="text-lg font-semibold mb-2">Loan Summary</h3>
-      <div class="flex justify-between">
-        <span>Loan Amount:</span>
-        <span id="loanAmount">--</span>
-      </div>
-      <div class="flex justify-between">
-        <span>Service Fee:</span>
-        <span id="serviceFee">--</span>
-      </div>
-      <div class="flex justify-between font-bold mt-2">
-        <span>Total to Pay:</span>
-        <span id="totalAmount">--</span>
-      </div>
-    </div>
+  <main class="flex-1 flex flex-col items-center justify-center p-4 w-full">
 
-    <!-- M-Pesa Confirmation Paste Box -->
-    <div class="mt-6 w-full max-w-md">
-      <label for="mpesaCode" class="block mb-2 text-sm">Paste your M-Pesa Confirmation Code:</label>
-      <textarea id="mpesaCode" rows="2" class="w-full p-3 rounded-lg text-black" placeholder="e.g. QCY4R5TY9..."></textarea>
-    </div>
+    <div class="bg-white text-black rounded-lg shadow-lg p-4 w-full max-w-lg">
+      <h2 class="text-xl font-bold mb-4 text-center">Loan Summary</h2>
 
-    <button class="mt-6 bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-bold">Confirm Payment</button>
+      <div class="mb-2 flex justify-between"><span>Loan Amount:</span><span id="loanAmount">--</span></div>
+      <div class="mb-2 flex justify-between"><span>Service Fee:</span><span id="serviceFee">--</span></div>
+      <div class="mb-2 flex justify-between"><span>Request Date:</span><span id="requestDate">--</span></div>
+      <div class="mb-2 flex justify-between"><span>Due Date:</span><span id="dueDate">--</span></div>
+      <div class="mb-4 flex justify-between"><span>M-Pesa Number:</span><span id="mpesaNumber">--</span></div>
+
+      <h3 class="text-lg font-semibold mb-2">Payment Instructions</h3>
+      <ol class="list-decimal list-inside text-sm space-y-1">
+        <li>Go to M-Pesa &gt; Lipa na M-Pesa</li>
+        <li>Select <b>Buy Goods and Services</b></li>
+        <li>Enter Till Number: <b>9824375</b> (<span class="text-red-700 font-bold">HAKIKA</span>)</li>
+        <li>Enter Amount: <span id="amountToPay" class="font-semibold">--</span></li>
+        <li>Enter your M-Pesa PIN and confirm</li>
+        <li>Wait for confirmation SMS</li>
+      </ol>
+
+      <div class="mt-4">
+        <label for="mpesaMessage" class="block mb-2 text-sm">Paste your full M-Pesa confirmation message:</label>
+        <textarea id="mpesaMessage" rows="3" class="w-full p-2 border rounded-lg" placeholder="e.g. HAKIKA R PROVISION Ksh XX received from..."></textarea>
+      </div>
+
+      <button class="mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg w-full">Submit</button>
+    </div>
 
   </main>
 
   <script>
-    // Get summary data from localStorage
+    // Load details from localStorage (set in previous step)
     const loanAmount = localStorage.getItem("loanAmount") || 0;
     const serviceFee = localStorage.getItem("serviceFee") || 0;
-    const total = Number(loanAmount) + Number(serviceFee);
+    const requestDate = localStorage.getItem("requestDate") || new Date().toLocaleDateString();
+    const dueDate = localStorage.getItem("dueDate") || new Date(Date.now() + 7*24*60*60*1000).toLocaleDateString();
+    const mpesaNumber = localStorage.getItem("mpesaNumber") || "07XXXXXXXX";
+    const amountToPay = Number(serviceFee).toLocaleString();
 
     document.getElementById("loanAmount").textContent = "Ksh " + Number(loanAmount).toLocaleString();
     document.getElementById("serviceFee").textContent = "Ksh " + Number(serviceFee).toLocaleString();
-    document.getElementById("totalAmount").textContent = "Ksh " + total.toLocaleString();
+    document.getElementById("requestDate").textContent = requestDate;
+    document.getElementById("dueDate").textContent = dueDate;
+    document.getElementById("mpesaNumber").textContent = mpesaNumber;
+    document.getElementById("amountToPay").textContent = "Ksh " + amountToPay;
   </script>
 
 </body>
