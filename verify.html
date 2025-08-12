@@ -3,38 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Verify Your Payment</title>
+  <title>Verify Payment - Hakika R Provision</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-blue-900 to-blue-700 min-h-screen text-white flex items-center justify-center p-4">
-  <div class="bg-white text-gray-800 rounded-xl shadow-lg p-6 max-w-md w-full">
-    <h1 class="text-xl font-bold text-center text-blue-800 mb-4">Payment Instructions</h1>
-    <ol class="list-decimal list-inside space-y-2 text-sm">
-      <li>Go to your M-Pesa menu.</li>
-      <li>Select <strong>Lipa na M-Pesa</strong> → Paybill.</li>
-      <li>Enter <strong>Business Number:</strong> <span class="text-blue-700 font-bold">9824375</span></li>
-      <li>Enter <strong>Account Number:</strong> Your ID Number</li>
-      <li>Enter <strong>Amount:</strong> <span id="serviceFee" class="text-blue-700 font-bold"></span></li>
-      <li>Enter M-Pesa PIN and confirm.</li>
-    </ol>
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen flex items-center justify-center p-4 text-white">
 
-    <div class="mt-6">
-      <label for="mpesaCode" class="block text-sm font-medium text-gray-700 mb-2">
-        Paste your M-Pesa Confirmation Code:
-      </label>
-      <input id="mpesaCode" type="text" placeholder="e.g. QRT123456X"
-             class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+  <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md text-gray-800">
+    <div class="flex justify-center mb-4">
+      <img src="logo.png" alt="Hakika R Provision Logo" class="h-16">
+    </div>
+    <h2 class="text-xl font-bold text-center text-blue-900 mb-4">Verify Your Payment</h2>
+
+    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+      <h3 class="text-lg font-semibold mb-2">Payment Instructions</h3>
+      <ol class="list-decimal list-inside space-y-1 text-sm">
+        <li>Go to your M-Pesa menu.</li>
+        <li>Select <strong>Lipa na M-Pesa</strong> → <strong>Paybill</strong>.</li>
+        <li>Enter <strong>Business Number</strong>: <span class="font-bold text-blue-800">9824375</span></li>
+        <li>Enter <strong>Account Number</strong>: Your ID Number</li>
+        <li>Enter <strong>Amount</strong>: Service Fee</li>
+        <li>Enter your M-Pesa PIN and confirm.</li>
+      </ol>
     </div>
 
-    <button class="mt-6 w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg">
-      Verify Payment
-    </button>
+    <div class="mb-4">
+      <label for="amount" class="block text-sm font-medium text-gray-700 mb-1">Enter Amount</label>
+      <input type="number" id="amount" readonly class="w-full p-3 border rounded-lg focus:outline-none bg-gray-200">
+    </div>
+
+    <div class="mb-4">
+      <label for="transaction" class="block text-sm font-medium text-gray-700 mb-1">Paste M-Pesa Confirmation Code</label>
+      <input type="text" id="transaction" placeholder="e.g. QBN1ZXY123" class="w-full p-3 border rounded-lg focus:outline-none">
+    </div>
+
+    <button onclick="confirmPayment()" class="w-full bg-blue-800 hover:bg-blue-900 text-white p-3 rounded-lg font-semibold">Confirm Payment</button>
   </div>
 
   <script>
-    // Get service fee from localStorage, round it to whole number
-    const serviceFee = Math.round(parseFloat(localStorage.getItem("serviceFee") || "0"));
-    document.getElementById("serviceFee").textContent = serviceFee.toString();
+    document.addEventListener('DOMContentLoaded', () => {
+      let fee = localStorage.getItem('serviceFee') || 0;
+      fee = Math.round(fee); // remove decimals
+      document.getElementById('amount').value = fee;
+    });
+
+    function confirmPayment() {
+      let code = document.getElementById('transaction').value.trim();
+      if (!code) {
+        alert("Please paste your M-Pesa confirmation code.");
+        return;
+      }
+      alert("Payment confirmed! Thank you.");
+      // redirect or process payment verification here
+    }
   </script>
 </body>
 </html>
