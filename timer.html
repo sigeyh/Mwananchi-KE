@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Processing Loan - Mwananchi Loans</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #002b5c, #004080);
+      font-family: 'Poppins', sans-serif;
+    }
+    .countdown {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #f7941d;
+    }
+    .loader {
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top: 4px solid #f7941d;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen text-white p-6">
+
+  <!-- Logo -->
+  <div class="mb-6">
+    <img src="mwananchi-logo.png" alt="Mwananchi Loans" class="h-16 mx-auto">
+  </div>
+
+  <!-- Loader -->
+  <div class="loader"></div>
+  <h2 class="text-2xl font-bold text-center mt-4">Processing Your Loan</h2>
+  <p class="text-center text-white/80 mb-6">Please wait while we confirm your payment.</p>
+
+  <!-- Countdown Timer -->
+  <div class="countdown" id="countdown">10</div>
+
+  <!-- Info -->
+  <p class="mt-4 text-center text-white/70">You will be redirected to your dashboard automatically.</p>
+
+  <script>
+    let timeLeft = 10;
+    const countdownEl = document.getElementById('countdown');
+
+    const countdownInterval = setInterval(() => {
+      timeLeft--;
+      countdownEl.textContent = timeLeft;
+
+      if (timeLeft <= 0) {
+        clearInterval(countdownInterval);
+        window.location.href = "dashboard.html";
+      }
+    }, 1000);
+  </script>
+
+</body>
+</html>
