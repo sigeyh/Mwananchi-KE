@@ -18,7 +18,8 @@
     <h2 class="text-2xl font-bold text-center mb-4 text-blue-900">Verify Your Loan Application</h2>
     <p class="text-center text-gray-600 mb-6">Please confirm your loan details and complete payment instructions below.</p>
 
-    <div class="space-y-2">
+    <!-- Loan Details -->
+    <div class="space-y-2 text-sm">
       <p><span class="font-semibold">Loan Amount:</span> KES <span id="loanAmount">0</span></p>
       <p><span class="font-semibold">Service Fee:</span> KES <span id="serviceFee">0</span></p>
       <p><span class="font-semibold">Interest:</span> KES <span id="interest">0</span></p>
@@ -27,7 +28,8 @@
       <p><span class="font-semibold">Due Date:</span> <span id="dueDate">-</span></p>
     </div>
 
-    <div class="mb-6">
+    <!-- Payment Instructions -->
+    <div class="mt-6 mb-6">
       <p class="mb-2 font-semibold">Payment Instructions:</p>
       <ol class="list-decimal list-inside space-y-1 text-sm">
         <li>Go to your M-Pesa menu.</li>
@@ -38,7 +40,15 @@
       </ol>
     </div>
 
-    <button onclick="confirmLoan()" class="mt-6 w-full bg-orange-500 text-white py-3 rounded-xl hover:bg-orange-600 transition font-semibold">
+    <!-- M-Pesa Code Paste Box -->
+    <div class="mb-4">
+      <label for="mpesaCode" class="block font-semibold text-sm mb-1">Paste M-Pesa Transaction Code:</label>
+      <input type="text" id="mpesaCode" placeholder="e.g. QFT7S6H8K9"
+             class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500">
+    </div>
+
+    <!-- Submit Button -->
+    <button onclick="confirmLoan()" class="mt-4 w-full bg-orange-500 text-white py-3 rounded-xl hover:bg-orange-600 transition font-semibold">
       Confirm & Submit
     </button>
   </div>
@@ -53,6 +63,11 @@
     document.getElementById('dueDate').textContent = localStorage.getItem('dueDate') || '-';
 
     function confirmLoan() {
+      const code = document.getElementById('mpesaCode').value.trim();
+      if (!code) {
+        alert("Please paste your M-Pesa transaction code before submitting.");
+        return;
+      }
       alert("Your loan request has been submitted successfully!");
       window.location.href = "success.html";
     }
