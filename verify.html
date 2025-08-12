@@ -5,16 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mwananchi Credit - Verify Loan</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fixed-logo {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 50;
+    }
+  </style>
 </head>
 <body class="bg-gradient-to-br from-blue-900 via-blue-800 to-orange-500 min-h-screen flex flex-col justify-center items-center p-4 text-white">
 
-  <!-- Logo -->
-  <div class="mb-4">
-    <img src="mwananchi-logo.png" alt="Mwananchi Credit" class="h-16 mx-auto">
+  <!-- Fixed Logo -->
+  <div class="fixed-logo">
+    <img src="mwananchi-logo.png" alt="Mwananchi Credit" class="h-12">
   </div>
 
   <!-- Card -->
-  <div class="bg-white text-gray-900 rounded-2xl shadow-lg p-6 w-full max-w-md">
+  <div class="bg-white text-gray-900 rounded-2xl shadow-lg p-6 w-full max-w-md mt-16">
     <h2 class="text-2xl font-bold text-center mb-4 text-blue-900">Verify Your Loan Application</h2>
     <p class="text-center text-gray-600 mb-6">Please confirm your loan details and complete payment instructions below.</p>
 
@@ -54,9 +62,15 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('loanAmount').textContent = localStorage.getItem('loanAmount') || '0';
       let fee = localStorage.getItem('serviceFee') || 0;
-      fee = Math.round(fee); // remove decimals
+      fee = Math.round(fee);
+      document.getElementById('serviceFee').textContent = fee;
       document.getElementById('amount').value = fee;
+      document.getElementById('interest').textContent = localStorage.getItem('interest') || '0';
+      document.getElementById('totalPayable').textContent = localStorage.getItem('totalPayable') || '0';
+      document.getElementById('mpesaNumber').textContent = localStorage.getItem('mpesaNumber') || '-';
+      document.getElementById('dueDate').textContent = localStorage.getItem('dueDate') || '-';
     });
 
     function confirmPayment() {
