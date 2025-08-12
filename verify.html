@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Verify Payment - Hakika R Provision</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mwananchi Credit - Verify Loan</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen flex items-center justify-center p-4 text-white">
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-orange-500 min-h-screen flex flex-col justify-center items-center p-4 text-white">
 
-  <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md text-gray-800">
-    <div class="flex justify-center mb-4">
-      <img src="logo.png" alt="Hakika R Provision Logo" class="h-16">
+  <!-- Logo -->
+  <div class="mb-4">
+    <img src="mwananchi-logo.png" alt="Mwananchi Credit" class="h-16 mx-auto">
+  </div>
+
+  <!-- Card -->
+  <div class="bg-white text-gray-900 rounded-2xl shadow-lg p-6 w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center mb-4 text-blue-900">Verify Your Loan Application</h2>
+    <p class="text-center text-gray-600 mb-6">Please confirm your loan details and complete payment instructions below.</p>
+
+    <div class="space-y-2">
+      <p><span class="font-semibold">Loan Amount:</span> KES <span id="loanAmount">0</span></p>
+      <p><span class="font-semibold">Service Fee:</span> KES <span id="serviceFee">0</span></p>
+      <p><span class="font-semibold">Interest:</span> KES <span id="interest">0</span></p>
+      <p><span class="font-semibold">Total Payable:</span> KES <span id="totalPayable">0</span></p>
+      <p><span class="font-semibold">M-Pesa Number:</span> <span id="mpesaNumber">-</span></p>
+      <p><span class="font-semibold">Due Date:</span> <span id="dueDate">-</span></p>
     </div>
-    <h2 class="text-xl font-bold text-center text-blue-900 mb-4">Verify Your Payment</h2>
 
     <div class="bg-gray-100 p-4 rounded-lg mb-4">
       <h3 class="text-lg font-semibold mb-2">Payment Instructions</h3>
