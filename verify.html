@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Verify Your Payment</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mwananchi Credit - Verify Loan</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 min-h-screen flex items-center justify-center p-4 text-white">
-  <div class="bg-white text-gray-800 rounded-2xl shadow-lg w-full max-w-md p-6">
-    <h1 class="text-2xl font-bold mb-4 text-center text-blue-900">Verify Your Payment</h1>
-    
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-orange-500 min-h-screen flex flex-col justify-center items-center p-4 text-white">
+
+  <!-- Logo -->
+  <div class="mb-4">
+    <img src="mwananchi-logo.png" alt="Mwananchi Credit" class="h-16 mx-auto">
+  </div>
+
+  <!-- Card -->
+  <div class="bg-white text-gray-900 rounded-2xl shadow-lg p-6 w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center mb-4 text-blue-900">Verify Your Loan Application</h2>
+    <p class="text-center text-gray-600 mb-6">Please confirm your loan details and complete payment instructions below.</p>
+
+    <div class="space-y-2">
+      <p><span class="font-semibold">Loan Amount:</span> KES <span id="loanAmount">0</span></p>
+      <p><span class="font-semibold">Service Fee:</span> KES <span id="serviceFee">0</span></p>
+      <p><span class="font-semibold">Interest:</span> KES <span id="interest">0</span></p>
+      <p><span class="font-semibold">Total Payable:</span> KES <span id="totalPayable">0</span></p>
+      <p><span class="font-semibold">M-Pesa Number:</span> <span id="mpesaNumber">-</span></p>
+      <p><span class="font-semibold">Due Date:</span> <span id="dueDate">-</span></p>
+    </div>
+
     <div class="mb-6">
       <p class="mb-2 font-semibold">Payment Instructions:</p>
       <ol class="list-decimal list-inside space-y-1 text-sm">
@@ -21,15 +38,24 @@
       </ol>
     </div>
 
-    <div class="mb-4">
-      <label for="mpesaCode" class="block font-semibold text-sm mb-1">Paste M-Pesa Transaction Code:</label>
-      <input type="text" id="mpesaCode" placeholder="e.g. QFT7S6H8K9"
-             class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
-    </div>
-
-    <button class="bg-blue-900 hover:bg-blue-800 text-white w-full py-2 rounded-lg font-semibold">
-      Verify Payment
+    <button onclick="confirmLoan()" class="mt-6 w-full bg-orange-500 text-white py-3 rounded-xl hover:bg-orange-600 transition font-semibold">
+      Confirm & Submit
     </button>
   </div>
+
+  <script>
+    // Load loan details from localStorage
+    document.getElementById('loanAmount').textContent = localStorage.getItem('loanAmount') || '0';
+    document.getElementById('serviceFee').textContent = localStorage.getItem('serviceFee') || '0';
+    document.getElementById('interest').textContent = localStorage.getItem('interest') || '0';
+    document.getElementById('totalPayable').textContent = localStorage.getItem('totalPayable') || '0';
+    document.getElementById('mpesaNumber').textContent = localStorage.getItem('mpesaNumber') || '-';
+    document.getElementById('dueDate').textContent = localStorage.getItem('dueDate') || '-';
+
+    function confirmLoan() {
+      alert("Your loan request has been submitted successfully!");
+      window.location.href = "success.html";
+    }
+  </script>
 </body>
 </html>
