@@ -3,60 +3,109 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verify Payment - Hakika R Provision</title>
+  <title>Mwananchi Credit - Verify Loan</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fixed-logo {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 50;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-red-600 to-red-400 min-h-screen flex items-center justify-center p-4 text-white">
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-orange-500 min-h-screen flex flex-col justify-center items-center p-4 text-white">
 
-  <div class="bg-white text-gray-900 rounded-xl shadow-lg p-6 w-full max-w-md">
-    <h1 class="text-2xl font-bold text-center text-red-600 mb-4">Payment Instructions</h1>
-    <ol class="list-decimal list-inside mb-6 space-y-2">
-      <li>Go to your M-Pesa menu.</li>
-      <li>Select <strong>Lipa na M-Pesa → Buy Goods and Services</strong>.</li>
-      <li>Enter Till Number: <strong>9824375</strong></li>
-      <li>Enter Amount: <strong id="serviceFee"></strong></li>
-      <li>Enter M-Pesa PIN and confirm.</li>
-    </ol>
+  <!-- Fixed Logo -->
+  <div class="fixed-logo">
+    <img src="mwananchi-logo.png" alt="Mwananchi Credit" class="h-12">
+  </div>
 
-    <label for="mpesaCode" class="block font-semibold mb-2">Paste M-Pesa Code</label>
-    <input id="mpesaCode" type="text" placeholder="Paste your M-Pesa code here"
-      class="w-full border border-gray-300 rounded-lg p-2 mb-4 focus:ring-2 focus:ring-red-500 outline-none">
+  <!-- Card -->
+  <div id="mainCard" class="bg-white text-gray-900 rounded-2xl shadow-lg p-6 w-full max-w-md mt-16">
+    <h2 class="text-2xl font-bold text-center mb-4 text-blue-900">Verify Your Loan Application</h2>
+    <p class="text-center text-gray-600 mb-6">Please confirm your loan details and complete payment instructions below.</p>
 
-    <button id="submitBtn"
-      class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-semibold">
-      Submit Payment
-    </button>
-
-    <!-- Loader -->
-    <div id="loader" class="hidden text-center mt-4">
-      <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-red-600 mx-auto"></div>
-      <p class="mt-2 text-red-600 font-semibold">Verifying payment...</p>
+    <div class="space-y-2">
+      <p><span class="font-semibold">Loan Amount:</span> KES <span id="loanAmount">0</span></p>
+      <p><span class="font-semibold">Service Fee:</span> KES <span id="serviceFee">0</span></p>
+      <p><span class="font-semibold">Interest:</span> KES <span id="interest">0</span></p>
+      <p><span class="font-semibold">Total Payable:</span> KES <span id="totalPayable">0</span></p>
+      <p><span class="font-semibold">Due Date:</span> <span id="dueDate">-</span></p>
     </div>
+
+    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+      <h3 class="text-lg font-semibold mb-2">Payment Instructions</h3>
+      <ol class="list-decimal list-inside space-y-1 text-sm">
+        <li>Go to your M-Pesa menu.</li>
+        <li>Select <strong>Lipa na M-Pesa</strong> → <strong>Buy Goods & Services</strong>.</li>
+        <li>Enter <strong>Till Number</strong>: <span class="font-bold text-blue-800">9824375</span></li>
+        <li>Enter <strong>Amount</strong>: Service Fee</li>
+        <li>Enter your M-Pesa PIN and confirm.</li>
+      </ol>
+    </div>
+
+    <div class="mb-4">
+      <label for="amount" class="block text-sm font-medium text-gray-700 mb-1">Enter Amount</label>
+      <input type="number" id="amount" readonly class="w-full p-3 border rounded-lg focus:outline-none bg-gray-200">
+    </div>
+
+    <div class="mb-4">
+      <label for="transaction" class="block text-sm font-medium text-gray-700 mb-1">Paste M-Pesa Confirmation Code</label>
+      <input type="text" id="transaction" placeholder="e.g. QBN1ZXY123" class="w-full p-3 border rounded-lg focus:outline-none">
+    </div>
+
+    <button onclick="confirmPayment()" class="w-full bg-blue-800 hover:bg-blue-900 text-white p-3 rounded-lg font-semibold">Confirm Payment</button>
+  </div>
+
+  <!-- Loader & Success -->
+  <div id="loaderCard" class="hidden bg-white text-gray-900 rounded-2xl shadow-lg p-6 w-full max-w-md mt-16 text-center">
+    <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-800 mx-auto"></div>
+    <p class="mt-4 text-lg font-semibold text-blue-900">Processing Payment...</p>
+  </div>
+
+  <div id="successCard" class="hidden bg-white text-gray-900 rounded-2xl shadow-lg p-6 w-full max-w-md mt-16 text-center">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>
+    <p class="text-lg font-bold text-green-600">Payment Successful!</p>
+    <p class="text-sm text-gray-600 mt-1">Redirecting...</p>
   </div>
 
   <script>
-    // Load service fee without decimals
-    const fee = localStorage.getItem("serviceFee");
-    if (fee) {
-      document.getElementById("serviceFee").innerText = Math.round(Number(fee));
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('loanAmount').textContent = localStorage.getItem('loanAmount') || '0';
+      let fee = localStorage.getItem('serviceFee') || 0;
+      fee = Math.round(fee);
+      document.getElementById('serviceFee').textContent = fee;
+      document.getElementById('amount').value = fee;
+      document.getElementById('interest').textContent = localStorage.getItem('interest') || '0';
+      document.getElementById('totalPayable').textContent = localStorage.getItem('totalPayable') || '0';
+      document.getElementById('dueDate').textContent = localStorage.getItem('dueDate') || '-';
+    });
 
-    // Handle submit
-    document.getElementById("submitBtn").addEventListener("click", function () {
-      const mpesaCode = document.getElementById("mpesaCode").value.trim();
-      if (!mpesaCode) {
-        alert("Please paste your M-Pesa code.");
+    function confirmPayment() {
+      let code = document.getElementById('transaction').value.trim();
+      if (!code) {
+        alert("Please paste your M-Pesa confirmation code.");
         return;
       }
 
-      // Show loader
-      document.getElementById("loader").classList.remove("hidden");
+      // Hide form, show loader
+      document.getElementById('mainCard').classList.add('hidden');
+      document.getElementById('loaderCard').classList.remove('hidden');
 
-      // Simulate successful verification
+      // Simulate processing
       setTimeout(() => {
-        window.location.href = "timer.html"; // redirect to timer
+        document.getElementById('loaderCard').classList.add('hidden');
+        document.getElementById('successCard').classList.remove('hidden');
+
+        // Redirect after short delay
+        setTimeout(() => {
+          window.location.href = "timer.html";
+        }, 2000);
       }, 2500);
-    });
+    }
   </script>
 </body>
 </html>
