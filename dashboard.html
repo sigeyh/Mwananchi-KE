@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mwananchi Loans - Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes pulse {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
+    }
+    .loading-dots span {
+      animation: pulse 1.5s infinite;
+    }
+    .loading-dots span:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+    .loading-dots span:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen flex items-center justify-center text-white font-sans">
+
+  <div class="bg-white/10 backdrop-blur-md p-8 rounded-2xl shadow-lg w-full max-w-md text-center border border-white/20">
+    <img src="logo.png" alt="Mwananchi Loans Logo" class="w-20 mx-auto mb-4">
+
+    <h1 class="text-2xl font-bold mb-2 text-orange-400">Loan Approved</h1>
+
+    <p class="text-lg mb-4">Congratulations! Your loan has been approved.</p>
+
+    <div class="bg-white/10 p-4 rounded-lg mb-4 border border-orange-400">
+      <p class="text-lg font-semibold">
+        Amount: <span id="loanAmount" class="text-orange-400"></span>
+      </p>
+      <p class="text-lg font-semibold">
+        Repayment Period: <span id="repaymentPeriod" class="text-orange-400"></span> days
+      </p>
+    </div>
+
+    <div class="text-lg font-medium mb-2">Please wait<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></div>
+    <p class="text-sm text-white/70">Processing your loan disbursement</p>
+  </div>
+
+  <script>
+    // Retrieve values from localStorage
+    const loanAmount = localStorage.getItem('loanAmount') || '0';
+    const repaymentPeriod = localStorage.getItem('repaymentPeriod') || '30';
+
+    document.getElementById('loanAmount').textContent = `KSh ${loanAmount}`;
+    document.getElementById('repaymentPeriod').textContent = repaymentPeriod;
+  </script>
+
+</body>
+</html>
